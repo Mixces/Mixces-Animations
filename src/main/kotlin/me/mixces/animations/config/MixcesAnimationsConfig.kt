@@ -15,16 +15,16 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldBlockHitting = true
 
     @Switch(
-        name = "Old Projectiles",
-        category = "Old Animations"
-    )
-    var oldProjectiles = true
-
-    @Switch(
         name = "Smooth Sneaking",
         category = "Old Animations"
     )
     var smoothSneaking = true
+
+    @Switch(
+        name = "Old Projectiles",
+        category = "Old Animations"
+    )
+    var oldProjectiles = true
 
     @Switch(
         name = "Old Heart Flashing",
