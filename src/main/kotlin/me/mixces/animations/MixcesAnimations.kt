@@ -20,7 +20,7 @@ object MixcesAnimations {
     const val VERSION = "@VER@"
 
     @Mod.EventHandler
-     fun onInit(event: FMLInitializationEvent?) {
+    fun onInit(event: FMLInitializationEvent?) {
         MixcesAnimationsConfig
     }
 

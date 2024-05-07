@@ -17,9 +17,9 @@
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
-    "MixinGuiIngameForge",
+    "GuiIngameMixinForge",
     "ModelBipedMixin",
-    "NetHandlerPlayClientMixin",
+    "EntityPickupFXMixin",
     "PlayerControllerMPMixin",
     "RendererLivingEntityMixin",
     "RenderSnowballMixin"

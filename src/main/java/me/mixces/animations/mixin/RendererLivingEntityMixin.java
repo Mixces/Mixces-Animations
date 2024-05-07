@@ -12,7 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(RendererLivingEntity.class)
+@Mixin(
+        value = RendererLivingEntity.class
+)
 public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> extends Render<T> {
 
     protected RendererLivingEntityMixin(RenderManager renderManager) {

@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LayerArmorBase.class)
+@Mixin(
+        value = LayerArmorBase.class
+)
 public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerRenderer<EntityLivingBase> {
 
     @Shadow @Final private RendererLivingEntity<?> renderer;

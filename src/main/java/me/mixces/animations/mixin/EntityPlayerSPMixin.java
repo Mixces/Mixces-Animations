@@ -9,7 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(EntityPlayerSP.class)
+@Mixin(
+        value = EntityPlayerSP.class
+)
 public abstract class EntityPlayerSPMixin extends EntityMixin {
 
     @Shadow public MovementInput movementInput;

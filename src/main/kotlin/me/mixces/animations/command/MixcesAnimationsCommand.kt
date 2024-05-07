@@ -6,7 +6,9 @@ import me.mixces.animations.MixcesAnimations
 import me.mixces.animations.config.MixcesAnimationsConfig
 
 
-@Command(value = MixcesAnimations.MODID)
+@Command(
+    value = MixcesAnimations.MODID
+)
 class MixcesAnimationsCommand {
 
     @Main

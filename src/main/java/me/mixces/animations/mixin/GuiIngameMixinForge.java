@@ -7,8 +7,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-@Mixin(value = GuiIngameForge.class, remap = false)
-public class MixinGuiIngameForge {
+@Mixin(
+        value = GuiIngameForge.class,
+        remap = false
+)
+public class GuiIngameMixinForge {
 
     @ModifyVariable(
             method = "renderHealth",

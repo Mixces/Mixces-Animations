@@ -8,7 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(EntityPlayer.class)
+@Mixin(
+        value = EntityPlayer.class
+)
 public abstract class EntityPlayerMixin extends EntityMixin {
 
     @Redirect(
