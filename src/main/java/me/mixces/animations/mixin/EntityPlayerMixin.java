@@ -18,7 +18,7 @@ public abstract class EntityPlayerMixin extends EntityMixin {
                     target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
             )
     )
-    private boolean mixcesAnimations$getEyeHeight(EntityPlayer instance) {
+    private boolean mixcesAnimations$disableSneakSubtraction(EntityPlayer instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isSneaking();
     }
 
@@ -29,7 +29,7 @@ public abstract class EntityPlayerMixin extends EntityMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$getEyeHeight2(CallbackInfoReturnable<Float> cir) {
+    private void mixcesAnimations$movePlayerCamera(CallbackInfoReturnable<Float> cir) {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
             cir.setReturnValue(cir.getReturnValue() - mixcesAnimations$yOffset);
         }

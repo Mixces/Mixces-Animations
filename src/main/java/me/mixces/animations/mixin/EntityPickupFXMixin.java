@@ -25,7 +25,7 @@ public abstract class EntityPickupFXMixin {
                     target = "Lnet/minecraft/client/particle/EntityPickupFX;field_174841_aA:F"
             )
     )
-    private void mixcesAnimations$renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ, CallbackInfo ci) {
+    private void mixcesAnimations$factorInEyeHeight(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getOldPickup() && MixcesAnimationsConfig.INSTANCE.enabled) {
             field_174841_aA = field_174843_ax.getEyeHeight() / 2;
         }

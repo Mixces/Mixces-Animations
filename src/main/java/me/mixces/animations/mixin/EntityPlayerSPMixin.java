@@ -22,7 +22,7 @@ public abstract class EntityPlayerSPMixin extends EntityMixin {
                     ordinal = 0
             )
     )
-    private void mixcesAnimations$onLivingUpdate(CallbackInfo ci) {
+    private void mixcesAnimations$onSneakYSize(CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (movementInput.sneak && mixcesAnimations$ySize < 0.2F) {
             mixcesAnimations$ySize = 0.2F;

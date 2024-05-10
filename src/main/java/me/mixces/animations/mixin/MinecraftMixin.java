@@ -31,7 +31,7 @@ public abstract class MinecraftMixin {
             index = 1,
             argsOnly = true
     )
-    private boolean mixcesAnimations$sendClickBlockToController(boolean original) {
+    private boolean mixcesAnimations$disableLeftClickCheck(boolean original) {
         mixcesAnimations$leftClick = original;
         return !MixcesAnimationsConfig.INSTANCE.enabled && original;
     }
@@ -45,7 +45,7 @@ public abstract class MinecraftMixin {
             index = 1,
             argsOnly = true
     )
-    private boolean mixcesAnimations$sendClickBlockToController2(boolean original) {
+    private boolean mixcesAnimations$useCorrectLeftClickCheck(boolean original) {
         if (MixcesAnimationsConfig.INSTANCE.enabled) {
             return mixcesAnimations$leftClick;
         }
@@ -59,7 +59,7 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z"
             )
     )
-    private boolean mixcesAnimations$sendClickBlockToController3(EntityPlayerSP instance) {
+    private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
     }
 
@@ -70,7 +70,7 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;swingItem()V"
             )
     )
-    public void mixcesAnimations$sendClickBlockToController4(EntityPlayerSP instance) {
+    public void mixcesAnimations$switchSwingType(EntityPlayerSP instance) {
         if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled && instance.isUsingItem()) {
             MinecraftHook.swingItem(instance);
         } else {
@@ -85,7 +85,7 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;getIsHittingBlock()Z"
             )
     )
-    private boolean mixcesAnimations$rightClickMouse(PlayerControllerMP instance) {
+    private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.getIsHittingBlock();
     }
 
@@ -97,7 +97,7 @@ public abstract class MinecraftMixin {
                     ordinal = 0
             )
     )
-    private void mixcesAnimations$runTick(CallbackInfo ci) {
+    private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         boolean leftClick = currentScreen == null && gameSettings.keyBindAttack.isKeyDown() && inGameHasFocus;
         if (!leftClick) {

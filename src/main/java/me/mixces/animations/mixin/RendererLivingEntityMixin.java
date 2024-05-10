@@ -26,7 +26,7 @@ public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> exte
                     target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V"
             )
     )
-    private void mixcesAnimations$doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+    private void mixcesAnimations$addModelSneakingTranslation(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (entity instanceof EntityPlayer && entity.isSneaking()) {
             GlStateManager.translate(0.0F, -0.2F, 0.0F);

@@ -23,7 +23,7 @@ public abstract class EntityMixin {
                     value = "HEAD"
             )
     )
-    private void mixcesAnimations$moveEntity(double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
+    private void mixcesAnimations$setYSize(double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
             mixcesAnimations$ySize = 0.0F;
         }
@@ -38,7 +38,7 @@ public abstract class EntityMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$moveEntity2(double x, double y, double z, CallbackInfo ci) {
+    private void mixcesAnimations$onEntityMoveYSize(double x, double y, double z, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
             mixcesAnimations$ySize *= 0.4F;
         }
@@ -53,7 +53,7 @@ public abstract class EntityMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$resetPositionToBB(CallbackInfo ci) {
+    private void mixcesAnimations$moveEntityBB(CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
             posY += mixcesAnimations$yOffset - mixcesAnimations$ySize;
         }

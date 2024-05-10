@@ -21,7 +21,7 @@ public abstract class ItemRendererMixin {
             ),
             index = 4
     )
-    private float mixcesAnimations$renderItemInFirstPerson(float f1) {
+    private float mixcesAnimations$captureF1(float f1) {
         return mixcesAnimations$f1 = f1;
     }
 
@@ -43,7 +43,7 @@ public abstract class ItemRendererMixin {
             ),
             index = 1
     )
-    private float mixcesAnimations$renderItemInFirstPerson2(float swingProgress) {
+    private float mixcesAnimations$useF1(float swingProgress) {
         if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
             return mixcesAnimations$f1;
         }

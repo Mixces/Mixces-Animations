@@ -28,7 +28,7 @@ public abstract class RenderSnowballMixin <T extends Entity> extends Render<T> {
             ),
             index = 0
     )
-    private float mixcesAnimations$doRender(float angle) {
+    private float mixcesAnimations$rotateProjectile(float angle) {
         if (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled) {
             return 180.0F + angle;
         }
@@ -44,7 +44,7 @@ public abstract class RenderSnowballMixin <T extends Entity> extends Render<T> {
             ),
             index = 0
     )
-    private float mixcesAnimations$doRender2(float angle) {
+    private float mixcesAnimations$useProperCameraView(float angle) {
         return (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled ? -1F : 1F) * angle;
     }
 
@@ -52,10 +52,10 @@ public abstract class RenderSnowballMixin <T extends Entity> extends Render<T> {
             method = "doRender",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/block/model/ItemCameraTransforms$TransformType;)V"
+                    target = "Lnet/minecraft/client/renderer/entity/RenderSnowball;bindTexture(Lnet/minecraft/util/ResourceLocation;)V"
             )
     )
-    private void mixcesAnimations$doRender3(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+    private void mixcesAnimations$translateProjectile(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled) {
             GlStateManager.translate(0.0F, 0.25F, 0.0F);
         }

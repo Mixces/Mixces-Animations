@@ -17,7 +17,7 @@ public class EntityRendererMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$hurtCameraEffect(float partialTicks, CallbackInfo ci) {
+    private void mixcesAnimations$disableHurtEffect(float partialTicks, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getBetterShake() && MixcesAnimationsConfig.INSTANCE.enabled) {
             ci.cancel();
         }

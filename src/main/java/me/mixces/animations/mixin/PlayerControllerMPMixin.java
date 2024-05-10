@@ -28,7 +28,7 @@ public abstract class PlayerControllerMPMixin {
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;isHittingPosition(Lnet/minecraft/util/BlockPos;)Z"
             )
     )
-    private boolean mixcesAnimations$onPlayerDamageBlock(PlayerControllerMP instance, BlockPos pos) {
+    private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled || instance.getIsHittingBlock()) && isHittingPosition(pos);
     }
 
@@ -41,7 +41,7 @@ public abstract class PlayerControllerMPMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$onPlayerDamageBlock2(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir) {
+    private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir) {
         if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit()) {
             if (curBlockDamageMP > 0.0f) {
