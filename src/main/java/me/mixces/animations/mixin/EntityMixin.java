@@ -10,14 +10,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(
-        value = Entity.class
-)
+@Mixin(value = Entity.class)
 public abstract class EntityMixin {
 
     @Shadow public double posY;
     @Unique public float mixcesAnimations$yOffset;
     @Unique public float mixcesAnimations$ySize;
+
+    @Inject(
+            method = "setPositionAndRotation",
+            at = @At(
+                    value = "HEAD"
+            )
+    )
+    private void mixcesAnimations$moveEntity(double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            mixcesAnimations$ySize = 0.0F;
+        }
+    }
 
     @Inject(
             method = "moveEntity",

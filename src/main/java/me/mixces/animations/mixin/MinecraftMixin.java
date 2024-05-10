@@ -1,18 +1,56 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.util.SwingUtils;
+import me.mixces.animations.hook.MinecraftHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import me.mixces.animations.config.MixcesAnimationsConfig;
+import net.minecraft.client.settings.GameSettings;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(
-        value = Minecraft.class
-)
+@Mixin(value = Minecraft.class)
 public abstract class MinecraftMixin {
+
+    @Shadow public GameSettings gameSettings;
+    @Shadow public GuiScreen currentScreen;
+    @Shadow public boolean inGameHasFocus;
+    @Shadow private int leftClickCounter;
+    @Unique private boolean mixcesAnimations$leftClick;
+
+    @ModifyVariable(
+            method = "sendClickBlockToController",
+            at = @At(
+                    value = "LOAD",
+                    ordinal = 0
+            ),
+            index = 1,
+            argsOnly = true
+    )
+    private boolean mixcesAnimations$sendClickBlockToController(boolean original) {
+        mixcesAnimations$leftClick = original;
+        return !MixcesAnimationsConfig.INSTANCE.enabled && original;
+    }
+
+    @ModifyVariable(
+            method = "sendClickBlockToController",
+            at = @At(
+                    value = "LOAD",
+                    ordinal = 1
+            ),
+            index = 1,
+            argsOnly = true
+    )
+    private boolean mixcesAnimations$sendClickBlockToController2(boolean original) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled) {
+            return mixcesAnimations$leftClick;
+        }
+        return original;
+    }
 
     @Redirect(
             method = "sendClickBlockToController",
@@ -21,7 +59,7 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z"
             )
     )
-    private boolean mixcesAnimations$sendClickBlockToController(EntityPlayerSP instance) {
+    private boolean mixcesAnimations$sendClickBlockToController3(EntityPlayerSP instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
     }
 
@@ -32,9 +70,9 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;swingItem()V"
             )
     )
-    public void mixcesAnimations$sendClickBlockToController2(EntityPlayerSP instance) {
+    public void mixcesAnimations$sendClickBlockToController4(EntityPlayerSP instance) {
         if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled && instance.isUsingItem()) {
-            SwingUtils.swingItem(instance);
+            MinecraftHook.swingItem(instance);
         } else {
             instance.swingItem();
         }
@@ -49,6 +87,22 @@ public abstract class MinecraftMixin {
     )
     private boolean mixcesAnimations$rightClickMouse(PlayerControllerMP instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.getIsHittingBlock();
+    }
+
+    @Inject(
+            method = "runTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z",
+                    ordinal = 0
+            )
+    )
+    private void mixcesAnimations$runTick(CallbackInfo ci) {
+        if (!MixcesAnimationsConfig.INSTANCE.enabled) { return; }
+        boolean leftClick = currentScreen == null && gameSettings.keyBindAttack.isKeyDown() && inGameHasFocus;
+        if (!leftClick) {
+            leftClickCounter = 0;
+        }
     }
 
 }

@@ -9,12 +9,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-@Mixin(
-        value = ItemRenderer.class
-)
+@Mixin(value = ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Unique public float mixcesAnimations$f1;
+    @Unique private float mixcesAnimations$f1;
 
     @ModifyVariable(
             method = "renderItemInFirstPerson",

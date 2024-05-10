@@ -12,9 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(
-        value = RenderSnowball.class
-)
+@Mixin(value = RenderSnowball.class)
 public abstract class RenderSnowballMixin <T extends Entity> extends Render<T> {
 
     protected RenderSnowballMixin(RenderManager renderManager) {

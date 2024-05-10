@@ -11,9 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(
-        value = LayerHeldItem.class
-)
+@Mixin(value = LayerHeldItem.class)
 public class LayerHeldItemMixin {
 
     @Inject(

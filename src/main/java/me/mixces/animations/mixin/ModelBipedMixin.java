@@ -12,9 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(
-        value = ModelBiped.class
-)
+@Mixin(value = ModelBiped.class)
 public class ModelBipedMixin {
 
     @Shadow public ModelRenderer bipedRightArm;

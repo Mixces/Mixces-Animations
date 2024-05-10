@@ -5,9 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(
-        value = RendererLivingEntity.class
-)
+@Mixin(value = RendererLivingEntity.class)
 public interface RendererLivingEntityInvoker {
 
     @Invoker boolean invokeSetDoRenderBrightness(EntityLivingBase entitylivingbaseIn, float partialTicks);

@@ -1,9 +1,9 @@
-@file:JvmName("SwingUtils")
+@file:JvmName("MinecraftHook")
 
-package me.mixces.animations.util
+package me.mixces.animations.hook
 
-import net.minecraft.client.entity.EntityPlayerSP
 import me.mixces.animations.mixin.accessor.EntityLivingBaseInvoker
+import net.minecraft.client.entity.EntityPlayerSP
 
 fun swingItem(thePlayer: EntityPlayerSP) {
     val armSwingAnimationEnd = (thePlayer as? EntityLivingBaseInvoker)?.invokeGetArmSwingAnimationEnd() ?: return
@@ -11,5 +11,4 @@ fun swingItem(thePlayer: EntityPlayerSP) {
         thePlayer.swingProgressInt = -1
         thePlayer.isSwingInProgress = true
     }
-
 }
