@@ -7,22 +7,23 @@
     "maxShiftBy": 5
   },
   "client": [
-    "accessor.EntityLivingBaseInvoker",
-    "accessor.RendererLivingEntityInvoker",
     "EntityMixin",
+    "EntityPickupFXMixin",
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
     "EntityRendererMixin",
+    "GuiIngameMixinForge",
     "ItemRendererMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
-    "GuiIngameMixinForge",
     "ModelBipedMixin",
-    "EntityPickupFXMixin",
     "PlayerControllerMPMixin",
     "RendererLivingEntityMixin",
-    "RenderSnowballMixin"
+    "RenderItemMixin",
+    "RenderSnowballMixin",
+    "accessor.EntityLivingBaseInvoker",
+    "accessor.RendererLivingEntityInvoker"
   ],
   "verbose": true
 }

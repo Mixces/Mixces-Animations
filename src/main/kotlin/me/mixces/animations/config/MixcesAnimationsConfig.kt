@@ -33,6 +33,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldHearts = true
 
     @Switch(
+        name = "Old Enchantment Glint",
+        category = "Old Animations"
+    )
+    var oldGlint = true
+
+    @Switch(
         name = "Armor Hurt Color Tint",
         category = "Old Animations"
     )
@@ -43,6 +49,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
         category = "Old Animations"
     )
     var oldPickup = true
+
+    @Switch(
+        name = "Old Miss Penalty",
+        category = "Old Animations"
+    )
+    var oldDelay = true
 
     @Switch(
         name = "Remove Damage Shake",
