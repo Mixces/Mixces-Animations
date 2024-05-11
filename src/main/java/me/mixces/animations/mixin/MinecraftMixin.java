@@ -49,10 +49,10 @@ public abstract class MinecraftMixin {
             argsOnly = true
     )
     private boolean mixcesAnimations$useCorrectLeftClickCheck(boolean original) {
-//        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
+        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
             return mixcesAnimations$leftClick;
-//        }
-//        return original;
+        }
+        return original;
     }
 
     @Redirect(
