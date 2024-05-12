@@ -33,7 +33,7 @@ public abstract class MinecraftMixin {
             argsOnly = true
     )
     private boolean mixcesAnimations$disableLeftClickCheck(boolean original) {
-        mixcesAnimations$leftClick = original;
+//        mixcesAnimations$leftClick = original;
         return !MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled || original;
 
 
@@ -49,10 +49,11 @@ public abstract class MinecraftMixin {
             argsOnly = true
     )
     private boolean mixcesAnimations$useCorrectLeftClickCheck(boolean original) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            return mixcesAnimations$leftClick;
-        }
-        return original;
+        boolean leftClick = currentScreen == null && gameSettings.keyBindAttack.isKeyDown() && inGameHasFocus;
+//        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            return leftClick;
+//        }
+//        return original;
     }
 
     @Redirect(

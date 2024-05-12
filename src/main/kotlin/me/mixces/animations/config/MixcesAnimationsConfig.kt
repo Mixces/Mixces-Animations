@@ -56,12 +56,6 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     )
     var oldDelay = true
 
-    @Switch(
-        name = "Remove Damage Shake",
-        category = "Quality-of-Life"
-    )
-    var betterShake = true
-
     init {
         initialize()
     }
