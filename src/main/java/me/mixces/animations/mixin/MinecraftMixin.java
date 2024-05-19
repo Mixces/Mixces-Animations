@@ -7,10 +7,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.settings.GameSettings;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -21,40 +19,6 @@ public abstract class MinecraftMixin {
     @Shadow public GuiScreen currentScreen;
     @Shadow public boolean inGameHasFocus;
     @Shadow private int leftClickCounter;
-    @Unique private boolean mixcesAnimations$leftClick;
-
-    @ModifyVariable(
-            method = "sendClickBlockToController",
-            at = @At(
-                    value = "LOAD",
-                    ordinal = 0
-            ),
-            index = 1,
-            argsOnly = true
-    )
-    private boolean mixcesAnimations$disableLeftClickCheck(boolean original) {
-//        mixcesAnimations$leftClick = original;
-        return !MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled || original;
-
-
-    }
-
-    @ModifyVariable(
-            method = "sendClickBlockToController",
-            at = @At(
-                    value = "LOAD",
-                    ordinal = 1
-            ),
-            index = 1,
-            argsOnly = true
-    )
-    private boolean mixcesAnimations$useCorrectLeftClickCheck(boolean original) {
-        boolean leftClick = currentScreen == null && gameSettings.keyBindAttack.isKeyDown() && inGameHasFocus;
-//        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            return leftClick;
-//        }
-//        return original;
-    }
 
     @Redirect(
             method = "sendClickBlockToController",
@@ -96,27 +60,14 @@ public abstract class MinecraftMixin {
     @Inject(
             method = "runTick",
             at = @At(
-                    value = "FIELD",
-                    opcode = Opcodes.GETFIELD,
-                    target = "Lnet/minecraft/client/Minecraft;thePlayer:Lnet/minecraft/client/entity/EntityPlayerSP;"
-            ),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/Minecraft;displayGuiScreen(Lnet/minecraft/client/gui/GuiScreen;)V",
-                            ordinal = 5
-                    ),
-                    to = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z",
-                            ordinal = 0
-                    )
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z",
+                    ordinal = 0
             )
     )
     private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        boolean leftClick = currentScreen == null && gameSettings.keyBindAttack.isKeyDown() && inGameHasFocus;
-        if (!leftClick) {
+        if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus) {
             leftClickCounter = 0;
         }
     }
