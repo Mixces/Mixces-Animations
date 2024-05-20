@@ -3,54 +3,33 @@ package me.mixces.animations.mixin;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.init.PotionComponents;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.ForgeHooksClient;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = RenderItem.class)
 public abstract class RenderItemMixin {
 
-    @Shadow @Final private TextureManager textureManager;
     @Shadow public abstract void renderItem(ItemStack stack, IBakedModel model);
     @Shadow public abstract ItemModelMesher getItemModelMesher();
-    @Shadow protected abstract void preTransform(ItemStack stack);
 
-    @Inject(
+    @Redirect(
             method = "renderItemModelTransform",
             at = @At(
-                    value = "HEAD"
-            ),
-            cancellable = true
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
+            )
     )
-    protected void mixcesAnimations$renderPotion(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
+    protected void mixcesAnimations$renderPotion(RenderItem instance, ItemStack stack, IBakedModel model) {
         if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && stack.getItem() instanceof ItemPotion) {
-            ci.cancel();
-            textureManager.bindTexture(TextureMap.locationBlocksTexture);
-            textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-            preTransform(stack);
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.alphaFunc(516, 0.1F);
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.pushMatrix();
-            renderItem(stack, ForgeHooksClient.handleCameraTransforms(PotionComponents.getPotionOverlayModel(getItemModelMesher()), cameraTransformType));
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            renderItem(PotionComponents.getPotionBottleStack(stack), ForgeHooksClient.handleCameraTransforms(PotionComponents.getPotionBottleModel(getItemModelMesher(), stack), cameraTransformType));
-            GlStateManager.popMatrix();
-            GlStateManager.disableRescaleNormal();
-            GlStateManager.disableBlend();
-            textureManager.bindTexture(TextureMap.locationBlocksTexture);
-            textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
+            renderItem(stack, PotionComponents.getPotionOverlayModel(getItemModelMesher()));
+            renderItem(PotionComponents.getPotionBottleStack(stack), PotionComponents.getPotionBottleModel(getItemModelMesher(), stack));
+        } else {
+            renderItem(stack, model);
         }
     }
 
