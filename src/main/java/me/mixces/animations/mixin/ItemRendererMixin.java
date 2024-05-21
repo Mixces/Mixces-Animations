@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(value = ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Unique private float mixcesAnimations$f1;
+    @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 0.0F);
 
     @ModifyVariable(
             method = "renderItemInFirstPerson",
@@ -22,7 +22,8 @@ public abstract class ItemRendererMixin {
             index = 4
     )
     private float mixcesAnimations$captureF1(float f1) {
-        return mixcesAnimations$f1 = f1;
+        mixcesAnimations$f1.set(f1);
+        return f1;
     }
 
     @ModifyArg(
@@ -45,7 +46,7 @@ public abstract class ItemRendererMixin {
     )
     private float mixcesAnimations$useF1(float swingProgress) {
         if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            return mixcesAnimations$f1;
+            return mixcesAnimations$f1.get();
         }
         return swingProgress;
     }

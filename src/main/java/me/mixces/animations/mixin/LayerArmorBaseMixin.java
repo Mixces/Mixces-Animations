@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerRenderer<EntityLivingBase> {
 
     @Shadow @Final private RendererLivingEntity<?> renderer;
-    @Unique private T mixcesAnimations$t;
+    @Unique private static final ThreadLocal<ModelBase> mixcesAnimations$t = ThreadLocal.withInitial(() -> null);
 
     @ModifyVariable(
             method = "renderLayer",
@@ -41,7 +41,8 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
             index = 12
     )
     private T mixcesAnimations$captureT(T t) {
-        return mixcesAnimations$t = t;
+        mixcesAnimations$t.set(t);
+        return t;
     }
 
     @Inject(
@@ -56,7 +57,7 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
     private void mixcesAnimations$addDamageBrightness(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getOldArmor() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (((RendererLivingEntityInvoker) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks)) {
-            mixcesAnimations$t.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
+            mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
             ((RendererLivingEntityInvoker) renderer).invokeUnsetBrightness();
         }
     }
