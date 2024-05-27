@@ -19,7 +19,6 @@
     "ModelBipedMixin",
     "PlayerControllerMPMixin",
     "RendererLivingEntityMixin",
-    "RenderItemMixin",
     "RenderSnowballMixin",
     "accessor.EntityLivingBaseInvoker",
     "accessor.RendererLivingEntityInvoker"

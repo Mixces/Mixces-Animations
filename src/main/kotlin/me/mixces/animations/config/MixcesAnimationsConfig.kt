@@ -33,12 +33,6 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldHearts = true
 
     @Switch(
-        name = "Old Potion Rendering",
-        category = "Old Animations"
-    )
-    var oldPotion = true
-
-    @Switch(
         name = "Armor Hurt Color Tint",
         category = "Old Animations"
     )
