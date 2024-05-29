@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -49,11 +50,16 @@ public class LayerHeldItemMixin {
     private void mixcesAnimations$swordBlockPosition(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float s, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).isBlocking()) {
-            GlStateManager.translate(0.05f, 0.0f, -0.1f);
-            GlStateManager.rotate(-50.0f, 0.0f, 1.0f, 0.0f);
-            GlStateManager.rotate(-10.0f, 1.0f, 0.0f, 0.0f);
-            GlStateManager.rotate(-60.0f, 0.0f, 0.0f, 1.0f);
+            mixcesAnimations$doBlockTransformations();
         }
+    }
+
+    @Unique
+    private void mixcesAnimations$doBlockTransformations() {
+        GlStateManager.translate(0.05f, 0.0f, -0.1f);
+        GlStateManager.rotate(-50.0f, 0.0f, 1.0f, 0.0f);
+        GlStateManager.rotate(-10.0f, 1.0f, 0.0f, 0.0f);
+        GlStateManager.rotate(-60.0f, 0.0f, 0.0f, 1.0f);
     }
 
 }
