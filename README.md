@@ -10,7 +10,7 @@ Watered down Minecraft visuals mod powered by OneConfig!
 - Old Heart Flashing
 - Armor Hurt Color Tint
 - Old Item Pickup
-- Old Potion Rendering
+- Old Miss Penalty Behavior
 
 
 ### Support
