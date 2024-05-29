@@ -45,7 +45,7 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldPickup = true
 
     @Switch(
-        name = "Old Miss Penalty",
+        name = "Old Miss Penalty Behavior",
         category = "Old Animations"
     )
     var oldDelay = true
