@@ -21,13 +21,13 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var smoothSneaking = true
 
     @Switch(
-        name = "Old Projectiles",
+        name = "Mirrored Projectiles",
         category = "Old Animations"
     )
     var oldProjectiles = true
 
     @Switch(
-        name = "Old Heart Flashing",
+        name = "Remove Heart Flashing",
         category = "Old Animations"
     )
     var oldHearts = true
@@ -39,13 +39,13 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldArmor = true
 
     @Switch(
-        name = "Old Item Pickup",
+        name = "Better Item Pickup",
         category = "Old Animations"
     )
     var oldPickup = true
 
     @Switch(
-        name = "Old Miss Penalty Behavior",
+        name = "Remove Miss Penalty Attack Behavior",
         category = "Old Animations"
     )
     var oldDelay = true

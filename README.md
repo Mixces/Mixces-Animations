@@ -4,13 +4,13 @@ Watered down Minecraft visuals mod powered by OneConfig!
 
 ### Features
 
-- Old Blockhitting
+- Block-Hitting Animation
 - Smooth Sneaking
-- Old Projectiles
-- Old Heart Flashing
+- Mirrored Projectiles
+- Remove Heart Flashing
 - Armor Hurt Color Tint
-- Old Item Pickup
-- Old Miss Penalty Behavior
+- Better Item Pickup
+- Remove Miss Penalty Attack Behavior
 
 
 ### Support
