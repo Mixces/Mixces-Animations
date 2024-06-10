@@ -1,6 +1,7 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
+import cc.polyfrost.oneconfig.config.annotations.Slider
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
@@ -9,46 +10,67 @@ import me.mixces.animations.MixcesAnimations
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), MixcesAnimations.MODID + ".json") {
 
     @Switch(
-        name = "Block-Hitting Animation",
-        category = "Old Animations"
+        name = "Block-Hitting Animation"
     )
     var oldBlockHitting = true
 
     @Switch(
-        name = "Smooth Sneaking",
-        category = "Old Animations"
+        name = "Smooth Sneaking"
     )
     var smoothSneaking = true
 
     @Switch(
-        name = "Mirrored Projectiles",
-        category = "Old Animations"
+        name = "Alternative Item Rendering"
+    )
+    var oldRender = true
+
+    @Switch(
+        name = "Mirrored Projectiles"
     )
     var oldProjectiles = true
 
     @Switch(
-        name = "Remove Heart Flashing",
-        category = "Old Animations"
+        name = "Remove Heart Flashing"
     )
     var oldHearts = true
-
     @Switch(
-        name = "Armor Hurt Color Tint",
-        category = "Old Animations"
+        name = "Armor Hurt Color Tint"
     )
     var oldArmor = true
 
     @Switch(
-        name = "Better Item Pickup",
-        category = "Old Animations"
+        name = "Better Item Pickup"
     )
     var oldPickup = true
 
     @Switch(
-        name = "Remove Miss Penalty Attack Behavior",
-        category = "Old Animations"
+        name = "Remove Miss Penalty Attack Behavior"
     )
     var oldDelay = true
+
+    @Slider(
+        name = "piss",
+        min = -180.0F,
+        max = 180.0F,
+        instant = true
+    )
+    var awdasd = 0.0F
+
+    @Slider(
+        name = "piss2",
+        min = -180.0F,
+        max = 180.0F,
+        instant = true
+    )
+    var awdasd2 = 0.0F
+
+    @Slider(
+        name = "piss3",
+        min = -180.0F,
+        max = 180.0F,
+        instant = true
+    )
+    var awdasd3 = 0.0F
 
     init {
         initialize()
