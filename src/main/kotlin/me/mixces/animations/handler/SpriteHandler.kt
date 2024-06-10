@@ -302,19 +302,27 @@ object SpriteHandler {
         GlStateManager.matrixMode(5890)
 
         GlStateManager.pushMatrix()
-        GlStateManager.scale(8.0f, 8.0f, 8.0f)
-        val f = (Minecraft.getSystemTime() % 3000L) / 3000.0f / 8.0f
+        // switch to 8.0f for 1.8
+        GlStateManager.scale(0.125f, 0.125f, 0.125f)
+        // switch * to / for 1.8
+        val f = (Minecraft.getSystemTime() % 3000L) / 3000.0f * 8.0f
         GlStateManager.translate(f, 0.0f, 0.0f)
         GlStateManager.rotate(-50.0f, 0.0f, 0.0f, 1.0f)
-        renderHeldItem(model.particleTexture, Color(-10407781))
+        renderHeldItemGlint(0.0, 0.0, -1.0, 1.0, 16, 16, Color(-10407781))
+        // switch to this method for 1.8
+//        renderHeldItem(model.particleTexture, Color(-10407781))
         GlStateManager.popMatrix()
 
         GlStateManager.pushMatrix()
-        GlStateManager.scale(8.0f, 8.0f, 8.0f)
-        val f1 = (Minecraft.getSystemTime() % 4873L) / 4873.0f / 8.0f
+        // switch to 8.0f for 1.8
+        GlStateManager.scale(0.125f, 0.125f, 0.125f)
+        // switch * to / for 1.8
+        val f1 = (Minecraft.getSystemTime() % 4873L) / 4873.0f * 8.0f
         GlStateManager.translate(-f1, 0.0f, 0.0f)
         GlStateManager.rotate(10.0f, 0.0f, 0.0f, 1.0f)
-        renderHeldItem(model.particleTexture, Color(-10407781))
+        renderHeldItemGlint(0.0, 0.0, -1.0, 1.0, 16, 16, Color(-10407781))
+        // switch to this method for 1.8
+//        renderHeldItem(model.particleTexture, Color(-10407781))
         GlStateManager.popMatrix()
 
         GlStateManager.matrixMode(5888)
@@ -322,6 +330,87 @@ object SpriteHandler {
         GlStateManager.disableBlend()
         GlStateManager.enableLighting()
         GlStateManager.depthFunc(515)
+    }
+
+    private fun renderHeldItemGlint(var3: Double, var5: Double, var4: Double, var6: Double, var14: Int, var15: Int, color: Color) {
+        val var17 = 0.5f * (var3 - var4) / var14
+        val var18 = 0.5f * (var6 - var5) / var15
+
+        fun renderFace(facing: EnumFacing, var3: Double, var4: Double, var5: Double, var6: Double, color: Color) {
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL)
+
+            when (facing) {
+                EnumFacing.NORTH -> {
+                    worldrenderer.pos(0.0, 0.0, 0.0).tex(var3, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(1.0, 0.0, 0.0).tex(var4, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(1.0, 1.0, 0.0).tex(var4, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(0.0, 1.0, 0.0).tex(var3, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                }
+                EnumFacing.SOUTH -> {
+                    worldrenderer.pos(0.0, 1.0, -0.0625).tex(var3, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(1.0, 1.0, -0.0625).tex(var4, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(1.0, 0.0, -0.0625).tex(var4, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(0.0, 0.0, -0.0625).tex(var3, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                }
+                EnumFacing.WEST -> {
+                    for (var19 in 0 until var14) {
+                        val var20 = var19 / var14.toDouble()
+                        val var21 = var3 + (var4 - var3) * var20 - var17
+                        val var22 = var20 + 1.0f / var14
+
+                        worldrenderer.pos(var22, 1.0, -0.0625)  .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 1.0, 0.0)      .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 0.0, 0.0)      .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 0.0, -0.0625)  .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.EAST -> {
+                    for (var19 in 0 until var14) {
+                        val var20 = var19 / var14.toDouble()
+                        val var21 = var3 + (var4 - var3) * var20 - var17
+
+                        worldrenderer.pos(var20, 0.0, -0.0625)  .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 0.0, 0.0)      .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 1.0, 0.0)      .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 1.0, -0.0625)  .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.UP -> {
+                    for (var19 in 0 until var15) {
+                        val var20 = var19 / var15.toDouble()
+                        val var21 = var6 + (var5 - var6) * var20 - var18
+                        val var22 = var20 + 1.0f / var15
+
+                        worldrenderer.pos(0.0, var22, 0.0)      .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var22, 0.0)      .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var22, -0.0625)  .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var22, -0.0625)  .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.DOWN -> {
+                    for (var19 in 0 until var15) {
+                        val var20 = var19 / var15.toDouble()
+                        val var21 = var6 + (var5 - var6) * var20 - var18
+
+                        worldrenderer.pos(1.0, var20, 0.0)      .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var20, 0.0)      .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var20, -0.0625)  .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var20, -0.0625)  .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                    }
+                }
+
+                else -> { throw IllegalArgumentException("can't handle z-oriented side") }
+            }
+
+            tessellator.draw()
+        }
+
+        renderFace(EnumFacing.NORTH, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.SOUTH, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.WEST, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.EAST, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.UP, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.DOWN, var3, var4, var5, var6, color)
     }
     
 }
