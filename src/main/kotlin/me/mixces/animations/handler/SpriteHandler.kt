@@ -332,6 +332,7 @@ object SpriteHandler {
         GlStateManager.depthFunc(515)
     }
 
+    //todo: figure out how to make with forge files
     private fun renderHeldItemGlint(var3: Double, var5: Double, var4: Double, var6: Double, var14: Int, var15: Int, color: Color) {
         val var17 = 0.5f * (var3 - var4) / var14
         val var18 = 0.5f * (var6 - var5) / var15
