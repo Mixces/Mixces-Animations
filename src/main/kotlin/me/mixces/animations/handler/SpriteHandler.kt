@@ -12,6 +12,7 @@ import net.minecraft.client.resources.model.IBakedModel
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPotion
 import net.minecraft.item.ItemStack
+import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 
@@ -32,42 +33,23 @@ object SpriteHandler {
             layer0.maxV.toDouble(),
             Color(item.getColorFromItemStack(stack, 0))
         )
-        layer1?.let { 
+        layer1?.let {
             drawSprite(
                 it.minU.toDouble(),
                 it.maxU.toDouble(),
                 it.minV.toDouble(),
                 it.maxV.toDouble(),
                 Color(item.getColorFromItemStack(stack, 1))
-            ) 
+            )
         }
         tessellator.draw()
     }
 
     private fun drawSprite(uMin: Double, uMax: Double, vMin: Double, vMax: Double, color: Color) {
-        worldrenderer
-            .pos(-0.5, -0.25, 0.0)
-            .tex(uMin, vMax)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 1.0f, 0.0f)
-            .endVertex()
-        worldrenderer
-            .pos(0.5, -0.25, 0.0)
-            .tex(uMax, vMax)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 1.0f, 0.0f).endVertex()
-        worldrenderer
-            .pos(0.5, 0.75, 0.0)
-            .tex(uMax, vMin)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 1.0f, 0.0f)
-            .endVertex()
-        worldrenderer
-            .pos(-0.5, 0.75, 0.0)
-            .tex(uMin, vMin)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 1.0f, 0.0f)
-            .endVertex()
+        worldrenderer.pos(-0.5, -0.25, 0.0) .tex(uMin, vMax).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+        worldrenderer.pos(0.5, -0.25, 0.0)  .tex(uMax, vMax).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+        worldrenderer.pos(0.5, 0.75, 0.0)   .tex(uMax, vMin).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+        worldrenderer.pos(-0.5, 0.75, 0.0)  .tex(uMin, vMin).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
     }
 
     private fun getOverlay(model: IBakedModel, stack: ItemStack): TextureAtlasSprite? {
@@ -93,183 +75,82 @@ object SpriteHandler {
     private fun renderHeldItem(var3: Double, var5: Double, var4: Double, var6: Double, var14: Int, var15: Int, color: Color) {
         val var17 = 0.5f * (var3 - var4) / var14
         val var18 = 0.5f * (var6 - var5) / var15
-        var var20: Double
-        var var21: Double
-        var var22: Double
 
-        // NORTH
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL)
-        worldrenderer
-            .pos(0.0, 0.0, 0.0)
-            .tex(var3, var6)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, 1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(1.0, 0.0, 0.0)
-            .tex(var4, var6)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, 1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(1.0, 1.0, 0.0)
-            .tex(var4, var5)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, 1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(0.0, 1.0, 0.0)
-            .tex(var3, var5)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, 1.0f)
-            .endVertex()
-//        tessellator.draw()
+        fun renderFace(facing: EnumFacing, var3: Double, var4: Double, var5: Double, var6: Double, color: Color) {
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL)
 
-        // SOUTH
-//        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL)
-        worldrenderer
-            .pos(0.0, 1.0, -0.0625)
-            .tex(var3, var5)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, -1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(1.0, 1.0, -0.0625)
-            .tex(var4, var5)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, -1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(1.0, 0.0, -0.0625)
-            .tex(var4, var6)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, -1.0f)
-            .endVertex()
-        worldrenderer
-            .pos(0.0, 0.0, -0.0625)
-            .tex(var3, var6)
-            .color(color.red, color.green, color.blue, color.alpha)
-            .normal(0.0f, 0.0f, -1.0f)
-            .endVertex()
-        tessellator.draw()
+            when (facing) {
+                EnumFacing.NORTH -> {
+                    worldrenderer.pos(0.0, 0.0, 0.0).tex(var3, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(1.0, 0.0, 0.0).tex(var4, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(1.0, 1.0, 0.0).tex(var4, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                    worldrenderer.pos(0.0, 1.0, 0.0).tex(var3, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, 1.0f).endVertex()
+                }
+                EnumFacing.SOUTH -> {
+                    worldrenderer.pos(0.0, 1.0, -0.0625).tex(var3, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(1.0, 1.0, -0.0625).tex(var4, var5).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(1.0, 0.0, -0.0625).tex(var4, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                    worldrenderer.pos(0.0, 0.0, -0.0625).tex(var3, var6).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 0.0f, -1.0f).endVertex()
+                }
+                EnumFacing.WEST -> {
+                    for (var19 in 0 until var14) {
+                        val var20 = var19 / var14.toDouble()
+                        val var21 = var3 + (var4 - var3) * var20 - var17
+                        val var22 = var20 + 1.0f / var14
 
-        // SIDES
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL)
-        var var19 = 0
-        while (var19 < var14) {
-            var20 = var19 / var14.toDouble()
-            var21 = var3 + (var4 - var3) * var20 - var17
-            var22 = var20 + 1.0f / var14
-            worldrenderer
-                .pos(var20, 0.0, -0.0625)
-                .tex(var21, var6)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(-1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var20, 0.0, 0.0)
-                .tex(var21, var6)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(-1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var20, 1.0, 0.0)
-                .tex(var21, var5)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(-1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var20, 1.0, -0.0625)
-                .tex(var21, var5)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(-1.0f, 0.0f, 0.0f)
-                .endVertex()
+                        worldrenderer.pos(var22, 1.0, -0.0625)  .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 1.0, 0.0)      .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 0.0, 0.0)      .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var22, 0.0, -0.0625)  .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(1.0f, 0.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.EAST -> {
+                    for (var19 in 0 until var14) {
+                        val var20 = var19 / var14.toDouble()
+                        val var21 = var3 + (var4 - var3) * var20 - var17
 
-            worldrenderer
-                .pos(var22, 1.0, -0.0625)
-                .tex(var21, var5)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var22, 1.0, 0.0)
-                .tex(var21, var5)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var22, 0.0, 0.0)
-                .tex(var21, var6)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(1.0f, 0.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(var22, 0.0, -0.0625)
-                .tex(var21, var6)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(1.0f, 0.0f, 0.0f)
-                .endVertex()
-            ++var19
+                        worldrenderer.pos(var20, 0.0, -0.0625)  .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 0.0, 0.0)      .tex(var21, var6).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 1.0, 0.0)      .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                        worldrenderer.pos(var20, 1.0, -0.0625)  .tex(var21, var5).color(color.red, color.green, color.blue, color.alpha).normal(-1.0f, 0.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.UP -> {
+                    for (var19 in 0 until var15) {
+                        val var20 = var19 / var15.toDouble()
+                        val var21 = var6 + (var5 - var6) * var20 - var18
+                        val var22 = var20 + 1.0f / var15
+
+                        worldrenderer.pos(0.0, var22, 0.0)      .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var22, 0.0)      .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var22, -0.0625)  .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var22, -0.0625)  .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, 1.0f, 0.0f).endVertex()
+                    }
+                }
+                EnumFacing.DOWN -> {
+                    for (var19 in 0 until var15) {
+                        val var20 = var19 / var15.toDouble()
+                        val var21 = var6 + (var5 - var6) * var20 - var18
+
+                        worldrenderer.pos(1.0, var20, 0.0)      .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var20, 0.0)      .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(0.0, var20, -0.0625)  .tex(var3, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                        worldrenderer.pos(1.0, var20, -0.0625)  .tex(var4, var21).color(color.red, color.green, color.blue, color.alpha).normal(0.0f, -1.0f, 0.0f).endVertex()
+                    }
+                }
+
+                else -> { throw IllegalArgumentException("can't handle z-oriented side") }
+            }
+
+            tessellator.draw()
         }
 
-        var19 = 0
-        while (var19 < var15) {
-            var20 = var19 / var15.toDouble()
-            var21 = var6 + (var5 - var6) * var20 - var18
-            var22 = var20 + 1.0f / var15
-            worldrenderer
-                .pos(0.0, var22, 0.0)
-                .tex(var3, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, 1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(1.0, var22, 0.0)
-                .tex(var4, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, 1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(1.0, var22, -0.0625)
-                .tex(var4, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, 1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(0.0, var22, -0.0625)
-                .tex(var3, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, 1.0f, 0.0f)
-                .endVertex()
-
-            worldrenderer
-                .pos(1.0, var20, 0.0)
-                .tex(var4, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, -1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(0.0, var20, 0.0)
-                .tex(var3, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, -1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(0.0, var20, -0.0625)
-                .tex(var3, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, -1.0f, 0.0f)
-                .endVertex()
-            worldrenderer
-                .pos(1.0, var20, -0.0625)
-                .tex(var4, var21)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .normal(0.0f, -1.0f, 0.0f)
-                .endVertex()
-            ++var19
-        }
-
-        tessellator.draw()
+        renderFace(EnumFacing.NORTH, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.SOUTH, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.WEST, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.EAST, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.UP, var3, var4, var5, var6, color)
+        renderFace(EnumFacing.DOWN, var3, var4, var5, var6, color)
     }
 
     fun renderHeldItemWithLayer(stack: ItemStack, model: IBakedModel) {
@@ -333,26 +214,10 @@ object SpriteHandler {
             val var12 = if ((var6 == 1)) -1.0 else 4.0
 
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR)
-            worldrenderer
-                .pos(-0.5, -0.25, 0.0)
-                .tex(((var9 + 20.0f * var12) * var7), (20.0f * var7))
-                .color(color.red, color.green, color.blue, color.alpha)
-                .endVertex()
-            worldrenderer
-                .pos(0.5, -0.25, 0.0)
-                .tex(((var9 + 20.0f + 20.0f * var12) * var7), (20.0f * var7))
-                .color(color.red, color.green, color.blue, color.alpha)
-                .endVertex()
-            worldrenderer
-                .pos(0.5, 0.75, 0.0)
-                .tex(((var9 + 20.0f) * var7), 0.0)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .endVertex()
-            worldrenderer
-                .pos(-0.5, 0.75, 0.0)
-                .tex(((var9) * var7), 0.0)
-                .color(color.red, color.green, color.blue, color.alpha)
-                .endVertex()
+            worldrenderer.pos(-0.5, -0.25, 0.0) .tex(((var9 + 20.0f * var12) * var7), (20.0f * var7))           .color(color.red, color.green, color.blue, color.alpha).endVertex()
+            worldrenderer.pos(0.5, -0.25, 0.0)  .tex(((var9 + 20.0f + 20.0f * var12) * var7), (20.0f * var7))   .color(color.red, color.green, color.blue, color.alpha).endVertex()
+            worldrenderer.pos(0.5, 0.75, 0.0)   .tex(((var9 + 20.0f) * var7), 0.0)                           .color(color.red, color.green, color.blue, color.alpha).endVertex()
+            worldrenderer.pos(-0.5, 0.75, 0.0)  .tex(((var9) * var7), 0.0)                                   .color(color.red, color.green, color.blue, color.alpha).endVertex()
             tessellator.draw()
         }
     }
