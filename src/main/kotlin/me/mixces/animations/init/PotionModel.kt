@@ -24,10 +24,8 @@ enum class PotionModel(modelPath: String) {
     lateinit var bakedModel: IBakedModel
         private set
 
-    fun stitch(map: TextureMap) {
-        loadedModel = ModelLoaderRegistry.getModel(resourceLocation).apply {
-            textures.forEach { map.registerSprite(it) }
-        }
+    private fun stitch(map: TextureMap) {
+        loadedModel = ModelLoaderRegistry.getModel(resourceLocation).apply { textures.forEach { map.registerSprite(it) } }
     }
 
     private fun bake() {

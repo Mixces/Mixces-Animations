@@ -19,15 +19,14 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var smoothSneaking = true
 
     @Switch(
-        name = "Old Potion Rendering",
-        category = "Old Animations"
-    )
-    var oldPotion = true
-
-    @Switch(
         name = "Mirrored Projectiles"
     )
     var oldProjectiles = true
+
+    @Switch(
+        name = "Alternative Potion Rendering"
+    )
+    var oldPotion = true
 
     @Switch(
         name = "Remove Heart Flashing"
