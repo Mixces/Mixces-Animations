@@ -50,8 +50,7 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/model/ModelBase;render(Lnet/minecraft/entity/Entity;FFFFFF)V",
-                    shift = At.Shift.AFTER,
-                    ordinal = 1
+                    shift = At.Shift.AFTER
             )
     )
     private void mixcesAnimations$addDamageBrightness(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {

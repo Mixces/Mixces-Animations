@@ -1,7 +1,6 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
-import cc.polyfrost.oneconfig.config.annotations.Slider
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
@@ -20,9 +19,10 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var smoothSneaking = true
 
     @Switch(
-        name = "Alternative Item Rendering"
+        name = "Old Potion Rendering",
+        category = "Old Animations"
     )
-    var oldRender = true
+    var oldPotion = true
 
     @Switch(
         name = "Mirrored Projectiles"
@@ -47,30 +47,6 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
         name = "Remove Miss Penalty Attack Behavior"
     )
     var oldDelay = true
-
-    @Slider(
-        name = "piss",
-        min = -180.0F,
-        max = 180.0F,
-        instant = true
-    )
-    var awdasd = 0.0F
-
-    @Slider(
-        name = "piss2",
-        min = -180.0F,
-        max = 180.0F,
-        instant = true
-    )
-    var awdasd2 = 0.0F
-
-    @Slider(
-        name = "piss3",
-        min = -180.0F,
-        max = 180.0F,
-        instant = true
-    )
-    var awdasd3 = 0.0F
 
     init {
         initialize()
