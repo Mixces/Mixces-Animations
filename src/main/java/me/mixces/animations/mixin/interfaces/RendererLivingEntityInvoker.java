@@ -1,4 +1,4 @@
-package me.mixces.animations.mixin.accessor;
+package me.mixces.animations.mixin.interfaces;
 
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;

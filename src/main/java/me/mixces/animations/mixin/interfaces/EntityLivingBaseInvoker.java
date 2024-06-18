@@ -1,4 +1,4 @@
-package me.mixces.animations.mixin.accessor;
+package me.mixces.animations.mixin.interfaces;
 
 import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;

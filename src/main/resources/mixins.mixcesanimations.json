@@ -2,7 +2,7 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "package": "me.mixces.animations.mixin",
-  "refmap": "mixins.mixcesanimations.refmap.json",
+  "refmap": "mixins.${id}.refmap.json",
   "injectors": {
     "maxShiftBy": 5
   },
@@ -18,12 +18,11 @@
     "MinecraftMixin",
     "ModelBipedMixin",
     "PlayerControllerMPMixin",
-    "RenderEntityItemMixin",
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "accessor.EntityLivingBaseInvoker",
-    "accessor.RendererLivingEntityInvoker"
+    "interfaces.EntityLivingBaseInvoker",
+    "interfaces.RendererLivingEntityInvoker"
   ],
   "verbose": true
 }

@@ -1,6 +1,6 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.accessor.EntityLivingBaseInvoker;
+import me.mixces.animations.mixin.interfaces.EntityLivingBaseInvoker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
