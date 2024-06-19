@@ -17,7 +17,8 @@ enum class PotionModel(modelPath: String) {
 
     BOTTLE_OVERLAY("item/bottle_overlay"),
     BOTTLE_DRINKABLE_EMPTY("item/bottle_drinkable_empty"),
-    BOTTLE_SPLASH_EMPTY("item/bottle_splash_empty");
+    BOTTLE_SPLASH_EMPTY("item/bottle_splash_empty"),
+    LAYERLESS_GRASS("block/layerless_grass");
 
     private val resourceLocation = ResourceLocation(MixcesAnimations.MODID, modelPath)
     private lateinit var loadedModel: IModel
