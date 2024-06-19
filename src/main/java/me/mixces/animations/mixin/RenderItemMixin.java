@@ -1,6 +1,7 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
+import me.mixces.animations.handler.SpriteHandler;
 import me.mixces.animations.init.CustomModelBakery;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -15,56 +16,86 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = RenderItem.class)
 public abstract class RenderItemMixin {
 
-    @Shadow public abstract void renderItem(ItemStack stack, IBakedModel model);
-    @Unique private static final ThreadLocal<ItemStack> mixcesAnimations$stack = ThreadLocal.withInitial(() -> null);
+//    @Shadow public abstract void renderItem(ItemStack stack, IBakedModel model);
+//    @Unique private static final ThreadLocal<ItemStack> mixcesAnimations$stack = ThreadLocal.withInitial(() -> null);
+//
+//    @ModifyVariable(
+//            method = "renderItemModelTransform",
+//            at = @At(
+//                    value = "HEAD",
+//                    ordinal = 0
+//            ),
+//            index = 1,
+//            argsOnly = true
+//    )
+//    private ItemStack mixcesAnimations$captureStack(ItemStack stack) {
+//        mixcesAnimations$stack.set(stack);
+//        return stack;
+//    }
+//
+//    @ModifyArg(
+//            method = "renderItemModelTransform",
+//            at = @At(
+//                    value = "INVOKE",
+//                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
+//            ),
+//            index = 1
+//    )
+//    private IBakedModel mixcesAnimations$swapToCustomModel(IBakedModel model) {
+//        if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && mixcesAnimations$stack.get().getItem() instanceof ItemPotion) {
+//            return CustomModelBakery.BOTTLE_OVERLAY.getBakedModel();
+//        }
+//        return model;
+//    }
+//
+//    @Inject(
+//            method = "renderItemModelTransform",
+//            at = @At(
+//                    value = "INVOKE",
+//                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V",
+//                    shift = At.Shift.AFTER
+//            )
+//    )
+//    private void mixcesAnimations$renderCustomBottle(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
+//        if (!MixcesAnimationsConfig.INSTANCE.getOldPotion() || !MixcesAnimationsConfig.INSTANCE.enabled) return;
+//        if (stack.getItem() instanceof ItemPotion) {
+//            renderItem(new ItemStack(Items.glass_bottle), mixcesAnimations$getBottleModel(stack));
+//        }
+//    }
+//
+//    @Unique
+//    private IBakedModel mixcesAnimations$getBottleModel(ItemStack stack) {
+//        return ItemPotion.isSplash(stack.getMetadata()) ? CustomModelBakery.BOTTLE_SPLASH_EMPTY.getBakedModel() : CustomModelBakery.BOTTLE_DRINKABLE_EMPTY.getBakedModel();
+//    }
 
-    @ModifyVariable(
-            method = "renderItemModelTransform",
-            at = @At(
-                    value = "HEAD",
-                    ordinal = 0
-            ),
-            index = 1,
-            argsOnly = true
-    )
-    private ItemStack mixcesAnimations$captureStack(ItemStack stack) {
-        mixcesAnimations$stack.set(stack);
-        return stack;
-    }
-
-    @ModifyArg(
+    @Redirect(
             method = "renderItemModelTransform",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
-            ),
-            index = 1
-    )
-    private IBakedModel mixcesAnimations$swapToCustomModel(IBakedModel model) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && mixcesAnimations$stack.get().getItem() instanceof ItemPotion) {
-            return CustomModelBakery.BOTTLE_OVERLAY.getBakedModel();
-        }
-        return model;
-    }
-
-    @Inject(
-            method = "renderItemModelTransform",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V",
-                    shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$renderCustomBottle(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldPotion() || !MixcesAnimationsConfig.INSTANCE.enabled) return;
-        if (stack.getItem() instanceof ItemPotion) {
-            renderItem(new ItemStack(Items.glass_bottle), mixcesAnimations$getBottleModel(stack));
+    private void simplified$renderEveryOtherType(RenderItem instance, ItemStack stack, IBakedModel model, ItemStack stack2, IBakedModel model2, ItemCameraTransforms. TransformType cameraTransformType) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled && !model.isGui3d()) {
+            SpriteHandler.INSTANCE.renderHeldItemWithLayer(stack, model);
+        } else {
+            instance.renderItem(stack, model);
         }
     }
 
-    @Unique
-    private IBakedModel mixcesAnimations$getBottleModel(ItemStack stack) {
-        return ItemPotion.isSplash(stack.getMetadata()) ? CustomModelBakery.BOTTLE_SPLASH_EMPTY.getBakedModel() : CustomModelBakery.BOTTLE_DRINKABLE_EMPTY.getBakedModel();
+    @Redirect(
+            method = "renderItemIntoGUI",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
+            )
+    )
+    private void simplified$renderGuiItem(RenderItem instance, ItemStack stack, IBakedModel model) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled && !model.isGui3d()) {
+            SpriteHandler.INSTANCE.renderSpriteLayersWithGlint(stack, model);
+        } else {
+            instance.renderItem(stack, model);
+        }
     }
 
 }
