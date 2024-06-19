@@ -6,22 +6,14 @@ import net.minecraft.item.ItemStack
 
 object SkullModelHook {
 
-    private val map = HashMap<Int, IBakedModel>(5)
-
-    init {
-        map[0] = CustomModelBakery.SKULL_SKELETON.bakedModel
-        map[1] = CustomModelBakery.SKULL_WITHER.bakedModel
-        map[2] = CustomModelBakery.SKULL_ZOMBIE.bakedModel
-        map[3] = CustomModelBakery.SKULL_CHAR.bakedModel
-        map[4] = CustomModelBakery.SKULL_CREEPER.bakedModel
-    }
-
-    fun getSkullModel(stack: ItemStack): IBakedModel? {
-        val metadata: Int = stack.metadata
-        if (metadata in 0 until map.size) {
-            return map[metadata]
+    fun getSkullModel(stack: ItemStack): IBakedModel {
+        return when (stack.metadata) {
+            0 -> CustomModelBakery.SKULL_SKELETON.bakedModel
+            1 -> CustomModelBakery.SKULL_WITHER.bakedModel
+            2 -> CustomModelBakery.SKULL_ZOMBIE.bakedModel
+            4 -> CustomModelBakery.SKULL_CREEPER.bakedModel
+            else -> CustomModelBakery.SKULL_CHAR.bakedModel
         }
-        return map[3]
     }
 
 }
