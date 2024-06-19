@@ -13,12 +13,17 @@ import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-enum class PotionModel(modelPath: String) {
+enum class CustomModelBakery(modelPath: String) {
 
     BOTTLE_OVERLAY("item/bottle_overlay"),
     BOTTLE_DRINKABLE_EMPTY("item/bottle_drinkable_empty"),
     BOTTLE_SPLASH_EMPTY("item/bottle_splash_empty"),
-    LAYERLESS_GRASS("block/layerless_grass");
+    SKULL_CHAR("item/skull_char"),
+    SKULL_CREEPER("item/skull_creeper"),
+    SKULL_SKELETON("item/skull_skeleton"),
+    SKULL_WITHER("item/skull_wither"),
+    SKULL_ZOMBIE("item/skull_zombie"),
+    LAYERLESS_GRASS("block/fast_grass");
 
     private val resourceLocation = ResourceLocation(MixcesAnimations.MODID, modelPath)
     private lateinit var loadedModel: IModel
@@ -40,12 +45,12 @@ enum class PotionModel(modelPath: String) {
 
         @SubscribeEvent
         fun onStitch(event: TextureStitchEvent.Pre) {
-            PotionModel.entries.forEach { it.stitch(event.map) }
+            CustomModelBakery.entries.forEach { it.stitch(event.map) }
         }
 
         @SubscribeEvent
         fun onBake(event: ModelBakeEvent) {
-            PotionModel.entries.forEach { it.bake() }
+            CustomModelBakery.entries.forEach { it.bake() }
         }
     }
 

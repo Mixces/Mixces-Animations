@@ -1,7 +1,7 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
-import me.mixces.animations.init.PotionModel;
+import me.mixces.animations.init.CustomModelBakery;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -40,9 +40,9 @@ public abstract class RenderItemMixin {
             ),
             index = 1
     )
-    private IBakedModel mixcesAnimations$swapModel(IBakedModel model) {
+    private IBakedModel mixcesAnimations$swapToCustomModel(IBakedModel model) {
         if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && mixcesAnimations$stack.get().getItem() instanceof ItemPotion) {
-            return PotionModel.BOTTLE_OVERLAY.getBakedModel();
+            return CustomModelBakery.BOTTLE_OVERLAY.getBakedModel();
         }
         return model;
     }
@@ -55,17 +55,16 @@ public abstract class RenderItemMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$renderBottle(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && stack.getItem() instanceof ItemPotion) {
+    private void mixcesAnimations$renderCustomBottle(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
+        if (!MixcesAnimationsConfig.INSTANCE.getOldPotion() || !MixcesAnimationsConfig.INSTANCE.enabled) return;
+        if (stack.getItem() instanceof ItemPotion) {
             renderItem(new ItemStack(Items.glass_bottle), mixcesAnimations$getBottleModel(stack));
-        } else {
-            renderItem(stack, model);
         }
     }
 
     @Unique
     private IBakedModel mixcesAnimations$getBottleModel(ItemStack stack) {
-        return ItemPotion.isSplash(stack.getMetadata()) ? PotionModel.BOTTLE_SPLASH_EMPTY.getBakedModel() : PotionModel.BOTTLE_DRINKABLE_EMPTY.getBakedModel();
+        return ItemPotion.isSplash(stack.getMetadata()) ? CustomModelBakery.BOTTLE_SPLASH_EMPTY.getBakedModel() : CustomModelBakery.BOTTLE_DRINKABLE_EMPTY.getBakedModel();
     }
 
 }

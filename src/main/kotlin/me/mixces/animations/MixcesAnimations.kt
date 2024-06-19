@@ -3,7 +3,7 @@ package me.mixces.animations
 import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import me.mixces.animations.command.MixcesAnimationsCommand
 import me.mixces.animations.config.MixcesAnimationsConfig
-import me.mixces.animations.init.PotionModel
+import me.mixces.animations.init.CustomModelBakery
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
@@ -24,7 +24,7 @@ object MixcesAnimations {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        PotionModel
+        CustomModelBakery
     }
 
     @Mod.EventHandler

@@ -7,11 +7,13 @@
     "maxShiftBy": 5
   },
   "client": [
+    "BlockRendererDispatcherMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
     "GuiIngameMixinForge",
+    "ItemModelMesherMixin",
     "ItemRendererMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
