@@ -32,7 +32,6 @@ public class BakedItemModelMixin {
     )
     private void mixcesAnimations$cullDroppedItemQuadSides(ItemCameraTransforms.TransformType type, CallbackInfoReturnable<Pair<? extends IFlexibleBakedModel, Matrix4f>> cir) {
         if (!MixcesAnimationsConfig.INSTANCE.getFastDropped() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        System.out.println("imToggle is culled: " + isCulled);
         if (type == ItemCameraTransforms.TransformType.GROUND && !isCulled && cir.getReturnValue().getRight() == null) {
             cir.setReturnValue(Pair.of(otherModel, null));
         } else if (type != ItemCameraTransforms.TransformType.GROUND && isCulled) {
