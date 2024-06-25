@@ -22,6 +22,11 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var smoothSneaking = true
 
     @Switch(
+        name = "Better Glint"
+    )
+    var oldGlint = true
+
+    @Switch(
         name = "Mirrored Projectiles"
     )
     var oldProjectiles = true
@@ -41,19 +46,9 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldPickup = true
 
     @Switch(
-        name = "Fast Grass Sides"
+        name = "Fast Dropped Items"
     )
-    var fastGrass = true
-
-    @Switch(
-        name = "Alternative Potion Rendering"
-    )
-    var oldPotion = true
-
-    @Switch(
-        name = "Alternative Skull Rendering"
-    )
-    var oldSkulls = true
+    var fastDropped = true
 
     @Switch(
         name = "Remove Miss Penalty Attack Behavior"

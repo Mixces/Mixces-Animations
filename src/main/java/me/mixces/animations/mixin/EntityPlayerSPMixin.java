@@ -1,10 +1,12 @@
 package me.mixces.animations.mixin;
 
+import me.mixces.animations.mixin.interfaces.EntityLivingBaseInvoker;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.MovementInput;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,6 +28,31 @@ public abstract class EntityPlayerSPMixin extends EntityMixin {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (movementInput.sneak && mixcesAnimations$ySize < 0.2F) {
             mixcesAnimations$ySize = 0.2F;
+        }
+    }
+
+    @Inject(
+            method = "swingItem",
+            at = @At(
+                    value = "HEAD"
+            ),
+            cancellable = true
+    )
+    private void mixcesAnimations$removeSwingPackets(CallbackInfo ci) {
+        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
+        EntityPlayerSP player = ((EntityPlayerSP) (Object) this);
+        if (player.isUsingItem()) {
+            ci.cancel();
+            mixcesAnimations$swingItem(player);
+        }
+    }
+
+    @Unique
+    private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer) {
+        int armSwingAnimationEnd = ((EntityLivingBaseInvoker) thePlayer).invokeGetArmSwingAnimationEnd();
+        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0) {
+            thePlayer.swingProgressInt = -1;
+            thePlayer.isSwingInProgress = true;
         }
     }
 

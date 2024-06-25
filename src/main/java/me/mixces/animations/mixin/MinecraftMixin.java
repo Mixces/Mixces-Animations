@@ -1,6 +1,5 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.interfaces.EntityLivingBaseInvoker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,7 +8,6 @@ import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.settings.GameSettings;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -30,21 +28,6 @@ public abstract class MinecraftMixin {
     )
     private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
-    }
-
-    @Redirect(
-            method = "sendClickBlockToController",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/entity/EntityPlayerSP;swingItem()V"
-            )
-    )
-    public void mixcesAnimations$switchSwingType(EntityPlayerSP instance) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled && instance.isUsingItem()) {
-            mixcesAnimations$swingItem(instance);
-        } else {
-            instance.swingItem();
-        }
     }
 
     @Redirect(
@@ -70,15 +53,6 @@ public abstract class MinecraftMixin {
         if (!MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
         if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus) {
             leftClickCounter = 0;
-        }
-    }
-
-    @Unique
-    private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer) {
-        int armSwingAnimationEnd = ((EntityLivingBaseInvoker) thePlayer).invokeGetArmSwingAnimationEnd();
-        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0) {
-            thePlayer.swingProgressInt = -1;
-            thePlayer.isSwingInProgress = true;
         }
     }
 
