@@ -5,11 +5,8 @@ import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
 import me.mixces.animations.MixcesAnimations
-import net.minecraft.client.Minecraft
 
-
-
-object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), MixcesAnimations.MODID + ".json") {
+object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json") {
 
     @Switch(
         name = "Block-Hitting Animation"
@@ -46,9 +43,14 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
     var oldPickup = true
 
     @Switch(
-        name = "Fast Dropped Items"
+        name = "Old Re-equip Logic"
     )
-    var fastDropped = true
+    var oldReequip = true
+
+    @Switch(
+        name = "Fast Items"
+    )
+    var fastItems = true
 
     @Switch(
         name = "Remove Miss Penalty Attack Behavior"
@@ -57,9 +59,6 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP), 
 
     init {
         initialize()
-
-        val reloadWorld = Runnable { Minecraft.getMinecraft().renderGlobal.loadRenderers() }
-        addListener("fastGrass", reloadWorld)
     }
     
 }

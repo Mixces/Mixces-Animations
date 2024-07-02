@@ -31,10 +31,10 @@ public class BakedItemModelMixin {
             cancellable = true
     )
     private void mixcesAnimations$cullDroppedItemQuadSides(ItemCameraTransforms.TransformType type, CallbackInfoReturnable<Pair<? extends IFlexibleBakedModel, Matrix4f>> cir) {
-        if (!MixcesAnimationsConfig.INSTANCE.getFastDropped() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (type == ItemCameraTransforms.TransformType.GROUND && !isCulled && cir.getReturnValue().getRight() == null) {
+        if (!MixcesAnimationsConfig.INSTANCE.getFastItems() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
+        if ((type == ItemCameraTransforms.TransformType.GROUND || type == ItemCameraTransforms.TransformType.FIXED) && !isCulled && cir.getReturnValue().getRight() == null) {
             cir.setReturnValue(Pair.of(otherModel, null));
-        } else if (type != ItemCameraTransforms.TransformType.GROUND && isCulled) {
+        } else if (type != ItemCameraTransforms.TransformType.GROUND && type != ItemCameraTransforms.TransformType.FIXED && isCulled) {
             cir.setReturnValue(Pair.of(otherModel, cir.getReturnValue().getRight()));
         }
     }

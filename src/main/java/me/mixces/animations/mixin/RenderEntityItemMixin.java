@@ -42,7 +42,7 @@ public abstract class RenderEntityItemMixin extends Render<EntityItem> {
             index = 0
     )
     private float mixcesAnimations$replaceRotation(float angle) {
-        if (!MixcesAnimationsConfig.INSTANCE.getFastDropped() || !MixcesAnimationsConfig.INSTANCE.enabled) { return angle; }
+        if (!MixcesAnimationsConfig.INSTANCE.getFastItems() || !MixcesAnimationsConfig.INSTANCE.enabled) { return angle; }
         if (mixcesAnimations$isGui3d.get()) { return angle; }
         return 180.0F - renderManager.playerViewY;
     }

@@ -3,35 +3,48 @@ package me.mixces.animations.mixin;
 import net.minecraft.entity.player.EntityPlayer;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityPlayer.class)
 public abstract class EntityPlayerMixin extends EntityMixin {
 
-    @Redirect(
+    @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 1.62F);
+
+    @ModifyVariable(
             method = "getEyeHeight",
             at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
-            )
+                    value = "STORE"
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "INVOKE",
+                            target = "Lnet/minecraft/entity/player/EntityPlayer;isPlayerSleeping()Z"
+                    ),
+                    to = @At(
+                            value = "INVOKE",
+                            target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
+                    )
+            ),
+            index = 1
     )
-    private boolean mixcesAnimations$disableSneakSubtraction(EntityPlayer instance) {
-        return (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isSneaking();
+    private float mixcesAnimations$captureF(float f) {
+        mixcesAnimations$f1.set(f);
+        return f;
     }
 
     @Inject(
             method = "getEyeHeight",
             at = @At(
-                    value = "RETURN"
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
             ),
             cancellable = true
     )
     private void mixcesAnimations$movePlayerCamera(CallbackInfoReturnable<Float> cir) {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            cir.setReturnValue(cir.getReturnValue() - mixcesAnimations$yOffset);
+            cir.setReturnValue(mixcesAnimations$f1.get() - mixcesAnimations$yOffset);
         }
     }
 

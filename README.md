@@ -10,9 +10,8 @@ Watered down Minecraft visuals mod powered by OneConfig!
 - Remove Heart Flashing
 - Armor Hurt Color Tint
 - Better Item Pickup
-- Fast Grass Sides
-- Alternative Potion Rendering
-- Alternative Skull Rendering
+- Old Re-equip Logic
+- Fast Items
 - Remove Miss Penalty Attack Behavior
 
 

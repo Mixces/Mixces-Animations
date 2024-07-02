@@ -1,6 +1,6 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.interfaces.RendererLivingEntityInvoker;
+import me.mixces.animations.mixin.interfaces.RendererLivingEntityInterface;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
@@ -55,9 +55,9 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
     )
     private void mixcesAnimations$addDamageBrightness(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getOldArmor() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (((RendererLivingEntityInvoker) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks)) {
+        if (((RendererLivingEntityInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks)) {
             mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
-            ((RendererLivingEntityInvoker) renderer).invokeUnsetBrightness();
+            ((RendererLivingEntityInterface) renderer).invokeUnsetBrightness();
         }
     }
 

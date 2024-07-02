@@ -12,12 +12,11 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public abstract class RenderItemMixin {
 
     @ModifyArg(
-            method = "renderEffect",
+            method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderModel(Lnet/minecraft/client/resources/model/IBakedModel;I)V"
-            ),
-            index = 0
+                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderEffect(Lnet/minecraft/client/resources/model/IBakedModel;)V"
+            )
     )
     public IBakedModel mixcesAnimations$replaceModel(IBakedModel model) {
         if (MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled) {

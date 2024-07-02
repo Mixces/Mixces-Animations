@@ -13,7 +13,9 @@
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
     "GuiIngameMixinForge",
+    "ItemMixin",
     "ItemRendererMixin",
+    "ItemStackMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
@@ -23,8 +25,9 @@
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "interfaces.EntityLivingBaseInvoker",
-    "interfaces.RendererLivingEntityInvoker"
+    "interfaces.EntityLivingBaseInterface",
+    "interfaces.ItemRendererInterface",
+    "interfaces.RendererLivingEntityInterface"
   ],
   "verbose": true
 }
