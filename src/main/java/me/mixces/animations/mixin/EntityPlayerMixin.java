@@ -17,16 +17,6 @@ public abstract class EntityPlayerMixin extends EntityMixin {
             at = @At(
                     value = "STORE"
             ),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/entity/player/EntityPlayer;isPlayerSleeping()Z"
-                    ),
-                    to = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
-                    )
-            ),
             index = 1
     )
     private float mixcesAnimations$captureF(float f) {

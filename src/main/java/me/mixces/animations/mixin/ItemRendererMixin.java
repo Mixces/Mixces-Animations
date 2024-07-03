@@ -1,14 +1,23 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.item.ItemStack;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
+    @Shadow @Final private RenderItem itemRenderer;
+    @Shadow private ItemStack itemToRender;
     @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 0.0F);
 
     @ModifyVariable(
@@ -46,6 +55,55 @@ public abstract class ItemRendererMixin {
             return mixcesAnimations$f1.get();
         }
         return swingProgress;
+    }
+
+    @Inject(method = "renderItemInFirstPerson", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemRenderer;renderItem(Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/block/model/ItemCameraTransforms$TransformType;)V"))
+    private void mixcesAnimations$firstPersonItemPositions(float partialTicks, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled && !itemRenderer.shouldRenderItemIn3D(itemToRender)) {
+            if (itemToRender.getItem().shouldRotateAroundWhenRendering()) {
+                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                mixcesAnimations$itemTransforms();
+            } else {
+                mixcesAnimations$itemTransforms();
+            }
+        }
+    }
+
+    @Unique
+    private static void mixcesAnimations$itemTransforms() {
+        float scale = 1.5F / 1.7F;
+        GlStateManager.scale(scale, scale, scale);
+        GlStateManager.rotate(5.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.translate(-0.29F, 0.149F, -0.0328F);
+    }
+
+    @Inject(
+            method = "doBowTransformations",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/GlStateManager;scale(FFF)V"
+            )
+    )
+    private void mixcesAnimations$preBowTransform(float partialTicks, AbstractClientPlayer clientPlayer, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled) {
+            GlStateManager.rotate(-335.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(-50.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.translate(0.0F, 0.5F, 0.0F);
+        }
+    }
+
+    @Inject(
+            method = "doBowTransformations",
+            at = @At(
+                    value = "TAIL"
+            )
+    )
+    private void mixcesAnimations$postBowTransform(float partialTicks, AbstractClientPlayer clientPlayer, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled) {
+            GlStateManager.translate(0.0F, -0.5F, 0.0F);
+            GlStateManager.rotate(50.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(335.0F, 0.0F, 0.0F, 1.0F);
+        }
     }
 
 }

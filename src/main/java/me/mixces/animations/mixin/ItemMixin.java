@@ -21,7 +21,7 @@ public class ItemMixin {
     )
     public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir) {
         if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            cir.setReturnValue(true);
+            cir.setReturnValue(slotChanged);
         }
     }
 

@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = LayerArmorBase.class)
@@ -27,16 +26,6 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
             method = "renderLayer",
             at = @At(
                     value = "STORE"
-            ),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/model/ModelBase;setLivingAnimations(Lnet/minecraft/entity/EntityLivingBase;FFF)V"
-                    ),
-                    to = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/renderer/entity/layers/LayerArmorBase;setModelPartVisible(Lnet/minecraft/client/model/ModelBase;I)V"
-                    )
             ),
             index = 12
     )
