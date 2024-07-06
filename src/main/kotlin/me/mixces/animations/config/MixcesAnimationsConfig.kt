@@ -9,6 +9,11 @@ import me.mixces.animations.MixcesAnimations
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json") {
 
     @Switch(
+        name = "Old Lunar Item Positions"
+    )
+    var lunar = true
+
+    @Switch(
         name = "Block-Hitting Animation"
     )
     var oldBlockHitting = true
