@@ -1,10 +1,12 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
+import cc.polyfrost.oneconfig.config.annotations.Slider
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
 import me.mixces.animations.MixcesAnimations
+import net.minecraft.client.Minecraft
 
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json") {
 
@@ -57,8 +59,18 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     )
     var oldDelay = true
 
+    @Slider(
+        name = "Lazy Chunk Loading",
+        min = 0.0F,
+        max = 100.0F
+    )
+    var chunkLoading = 0.0F
+
     init {
         initialize()
+
+        val reloadWorld = Runnable { Minecraft.getMinecraft().renderGlobal.loadRenderers() }
+        addListener("chunkLoading", reloadWorld)
     }
     
 }

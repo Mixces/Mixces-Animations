@@ -27,7 +27,9 @@
     "RenderSnowballMixin",
     "interfaces.EntityLivingBaseInterface",
     "interfaces.ItemRendererInterface",
-    "interfaces.RendererLivingEntityInterface"
+    "interfaces.RendererLivingEntityInterface",
+    "lazychunk.AnvilChunkLoaderMixin",
+    "lazychunk.RenderGlobalMixin"
   ],
   "verbose": true
 }
