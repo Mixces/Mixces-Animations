@@ -7,15 +7,16 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import me.mixces.animations.config.MixcesAnimationsConfig;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = RendererLivingEntity.class)
-public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> extends Render<T> {
+public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> extends Render<T>
+{
 
-    protected RendererLivingEntityMixin(RenderManager renderManager) {
+    protected RendererLivingEntityMixin(RenderManager renderManager)
+    {
         super(renderManager);
     }
 
@@ -26,9 +27,14 @@ public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> exte
                     target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V"
             )
     )
-    private void mixcesAnimations$addModelSneakingTranslation(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (entity instanceof EntityPlayer && entity.isSneaking()) {
+    private void mixcesAnimations$addModelSneakingTranslation(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (entity instanceof EntityPlayer && entity.isSneaking())
+        {
             GlStateManager.translate(0.0F, -0.2F, 0.0F);
         }
     }

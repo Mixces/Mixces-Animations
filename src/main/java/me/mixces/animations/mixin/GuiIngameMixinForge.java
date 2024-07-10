@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
         value = GuiIngameForge.class,
         remap = false
 )
-public class GuiIngameMixinForge {
+public class GuiIngameMixinForge
+{
 
     @ModifyVariable(
             method = "renderHealth",
@@ -20,7 +21,8 @@ public class GuiIngameMixinForge {
             ),
             index = 5
     )
-    private boolean mixcesAnimations$disableFlashingCheck(boolean value) {
+    private boolean mixcesAnimations$disableFlashingCheck(boolean value)
+    {
         return (!MixcesAnimationsConfig.INSTANCE.getOldHearts() || !MixcesAnimationsConfig.INSTANCE.enabled) && value;
     }
 

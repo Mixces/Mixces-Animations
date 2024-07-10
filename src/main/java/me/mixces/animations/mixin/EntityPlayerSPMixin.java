@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityPlayerSP.class)
-public abstract class EntityPlayerSPMixin extends EntityMixin {
+public abstract class EntityPlayerSPMixin extends EntityMixin
+{
 
     @Shadow public MovementInput movementInput;
 
@@ -25,8 +26,12 @@ public abstract class EntityPlayerSPMixin extends EntityMixin {
             )
     )
     private void mixcesAnimations$onSneakYSize(CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (movementInput.sneak && mixcesAnimations$ySize < 0.2F) {
+        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (movementInput.sneak && mixcesAnimations$ySize < 0.2F)
+        {
             mixcesAnimations$ySize = 0.2F;
         }
     }
@@ -39,18 +44,26 @@ public abstract class EntityPlayerSPMixin extends EntityMixin {
             cancellable = true
     )
     private void mixcesAnimations$removeSwingPackets(CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
+        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+
         EntityPlayerSP player = ((EntityPlayerSP) (Object) this);
-        if (player.isUsingItem()) {
+
+        if (player.isUsingItem())
+        {
             ci.cancel();
             mixcesAnimations$swingItem(player);
         }
     }
 
     @Unique
-    private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer) {
+    private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer)
+    {
         int armSwingAnimationEnd = ((EntityLivingBaseInterface) thePlayer).invokeGetArmSwingAnimationEnd();
-        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0) {
+        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0)
+        {
             thePlayer.swingProgressInt = -1;
             thePlayer.isSwingInProgress = true;
         }

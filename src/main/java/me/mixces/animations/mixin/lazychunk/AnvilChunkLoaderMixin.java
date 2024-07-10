@@ -1,5 +1,6 @@
 package me.mixces.animations.mixin.lazychunk;
 
+import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -26,11 +27,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(AnvilChunkLoader.class)
-public abstract class AnvilChunkLoaderMixin {
+public abstract class AnvilChunkLoaderMixin
+{
 
     @Shadow private Map<ChunkCoordIntPair, NBTTagCompound> chunksToRemove;
     @Shadow @Final public File chunkSaveLocation;
-    @Shadow protected abstract Object[] checkedReadChunkFromNBT__Async(World worldIn, int x, int z, NBTTagCompound p_75822_4_);
+    @Shadow(remap = false) protected abstract Object[] checkedReadChunkFromNBT__Async(World worldIn, int x, int z, NBTTagCompound p_75822_4_);
     @Unique private static final ExecutorService mixcesAnimations$executorService = Executors.newCachedThreadPool();
 
     @Inject(
@@ -40,23 +42,34 @@ public abstract class AnvilChunkLoaderMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$multiThreadChunk(World worldIn, int x, int z, CallbackInfoReturnable<Chunk> cir) throws ExecutionException, InterruptedException {
+    private void mixcesAnimations$multiThreadChunk(World worldIn, int x, int z, CallbackInfoReturnable<Chunk> cir) throws ExecutionException, InterruptedException
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getChunkMultiThread() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+
         ChunkCoordIntPair chunkCoordIntPair = new ChunkCoordIntPair(x, z);
         AtomicReference<NBTTagCompound> atomicReference = new AtomicReference<>(chunksToRemove.get(chunkCoordIntPair));
 
-        Future<?> future = mixcesAnimations$executorService.submit(() -> {
-            if (atomicReference.get() == null) {
-                try (DataInputStream dataInputStream = RegionFileCache.getChunkInputStream(chunkSaveLocation, x, z)) {
-                    if (dataInputStream != null) {
+        Future<?> future = mixcesAnimations$executorService.submit(() ->
+        {
+            if (atomicReference.get() == null)
+            {
+                try (DataInputStream dataInputStream = RegionFileCache.getChunkInputStream(chunkSaveLocation, x, z))
+                {
+                    if (dataInputStream != null)
+                    {
                         atomicReference.set(CompressedStreamTools.read(dataInputStream));
                     }
-                } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
                     ex.printStackTrace();
                 }
             }
             return checkedReadChunkFromNBT__Async(worldIn, x, z, atomicReference.get());
         });
-
         cir.setReturnValue((Chunk) future.get());
     }
 

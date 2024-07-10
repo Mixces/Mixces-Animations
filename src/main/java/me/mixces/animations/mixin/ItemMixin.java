@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Item.class)
-public class ItemMixin {
+public class ItemMixin
+{
 
     @Inject(
             method = "shouldCauseReequipAnimation",
@@ -19,8 +20,10 @@ public class ItemMixin {
             cancellable = true,
             remap = false
     )
-    public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             cir.setReturnValue(slotChanged);
         }
     }

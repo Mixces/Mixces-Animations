@@ -14,19 +14,22 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
     version = MixcesAnimations.VERSION,
     modLanguageAdapter = "cc.polyfrost.oneconfig.utils.KotlinLanguageAdapter"
 )
-object MixcesAnimations {
+object MixcesAnimations
+{
 
     const val MODID = "@ID@"
     const val NAME = "@NAME@"
     const val VERSION = "@VER@"
 
     @Mod.EventHandler
-    fun onInit(event: FMLInitializationEvent?) {
+    fun onInit(event: FMLInitializationEvent?)
+    {
         MixcesAnimationsConfig
     }
 
     @Mod.EventHandler
-    fun postInit(event: FMLPostInitializationEvent?) {
+    fun postInit(event: FMLPostInitializationEvent?)
+    {
         CommandManager.INSTANCE.registerCommand(MixcesAnimationsCommand())
     }
 

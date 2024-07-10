@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin
+{
 
     @Shadow public double posY;
     @Unique public float mixcesAnimations$yOffset;
@@ -23,8 +24,10 @@ public abstract class EntityMixin {
                     value = "HEAD"
             )
     )
-    private void mixcesAnimations$setYSize(double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private void mixcesAnimations$setYSize(double x, double y, double z, float yaw, float pitch, CallbackInfo ci)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             mixcesAnimations$ySize = 0.0F;
         }
     }
@@ -38,8 +41,10 @@ public abstract class EntityMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$onEntityMoveYSize(double x, double y, double z, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private void mixcesAnimations$onEntityMoveYSize(double x, double y, double z, CallbackInfo ci)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             mixcesAnimations$ySize *= 0.4F;
         }
     }
@@ -53,8 +58,10 @@ public abstract class EntityMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$moveEntityBB(CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private void mixcesAnimations$moveEntityBB(CallbackInfo ci)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             posY += mixcesAnimations$yOffset - mixcesAnimations$ySize;
         }
     }

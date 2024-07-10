@@ -3,10 +3,12 @@
   "minVersion": "0.7",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
-  "injectors": {
+  "injectors":
+  {
     "maxShiftBy": 5
   },
-  "client": [
+  "client":
+  [
     "BakedItemModelMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
@@ -29,7 +31,8 @@
     "interfaces.ItemRendererInterface",
     "interfaces.RendererLivingEntityInterface",
     "lazychunk.AnvilChunkLoaderMixin",
-    "lazychunk.RenderGlobalMixin"
+    "lazychunk.RenderGlobalMixin",
+    "performance.LongHashMapMixin"
   ],
   "verbose": true
 }

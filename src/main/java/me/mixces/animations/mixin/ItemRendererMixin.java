@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(value = ItemRenderer.class)
-public abstract class ItemRendererMixin {
+public abstract class ItemRendererMixin
+{
 
     @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 0.0F);
 
@@ -18,7 +19,8 @@ public abstract class ItemRendererMixin {
             ),
             index = 4
     )
-    private float mixcesAnimations$captureF1(float f1) {
+    private float mixcesAnimations$captureF1(float f1)
+    {
         mixcesAnimations$f1.set(f1);
         return f1;
     }
@@ -41,8 +43,10 @@ public abstract class ItemRendererMixin {
             ),
             index = 1
     )
-    private float mixcesAnimations$useF1(float swingProgress) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private float mixcesAnimations$useF1(float swingProgress)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             return mixcesAnimations$f1.get();
         }
         return swingProgress;

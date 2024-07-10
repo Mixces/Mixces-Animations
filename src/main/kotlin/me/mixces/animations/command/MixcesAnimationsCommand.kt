@@ -9,10 +9,12 @@ import me.mixces.animations.config.MixcesAnimationsConfig
 @Command(
     value = MixcesAnimations.MODID
 )
-class MixcesAnimationsCommand {
+class MixcesAnimationsCommand
+{
 
     @Main
-    fun handle() {
+    fun handle()
+    {
         MixcesAnimationsConfig.openGui()
     }
 

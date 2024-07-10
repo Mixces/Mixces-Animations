@@ -17,7 +17,8 @@ import javax.vecmath.Matrix4f;
         targets = "net.minecraftforge.client.model.ItemLayerModel$BakedItemModel",
         remap = false
 )
-public class BakedItemModelMixin {
+public class BakedItemModelMixin
+{
 
     @Shadow @Final private boolean isCulled;
     @Shadow @Final private IFlexibleBakedModel otherModel;
@@ -30,11 +31,18 @@ public class BakedItemModelMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$cullDroppedItemQuadSides(ItemCameraTransforms.TransformType type, CallbackInfoReturnable<Pair<? extends IFlexibleBakedModel, Matrix4f>> cir) {
-        if (!MixcesAnimationsConfig.INSTANCE.getFastItems() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if ((type == ItemCameraTransforms.TransformType.GROUND || type == ItemCameraTransforms.TransformType.FIXED) && !isCulled && cir.getReturnValue().getRight() == null) {
+    private void mixcesAnimations$cullDroppedItemQuadSides(ItemCameraTransforms.TransformType type, CallbackInfoReturnable<Pair<? extends IFlexibleBakedModel, Matrix4f>> cir)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getFastItems() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if ((type == ItemCameraTransforms.TransformType.GROUND || type == ItemCameraTransforms.TransformType.FIXED) && !isCulled && cir.getReturnValue().getRight() == null)
+        {
             cir.setReturnValue(Pair.of(otherModel, null));
-        } else if (type != ItemCameraTransforms.TransformType.GROUND && type != ItemCameraTransforms.TransformType.FIXED && isCulled) {
+        }
+        else if (type != ItemCameraTransforms.TransformType.GROUND && type != ItemCameraTransforms.TransformType.FIXED && isCulled)
+        {
             cir.setReturnValue(Pair.of(otherModel, cir.getReturnValue().getRight()));
         }
     }

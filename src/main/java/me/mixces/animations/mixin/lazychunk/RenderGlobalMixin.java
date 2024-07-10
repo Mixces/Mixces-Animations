@@ -10,28 +10,36 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderGlobal.class)
-public class RenderGlobalMixin {
+public class RenderGlobalMixin
+{
 
     @Unique private int mixcesAnimations$timer;
 
-    @Dynamic("OptiFine")
+    @Dynamic
     @Inject(
             method = "updateChunks",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Iterator;next()Ljava/lang/Object;",
                     ordinal = 2
-            ),
-            cancellable = true
+            )
     )
-    private void mixcesAnimations$lazyChunkLoading(long finishTimeNano, CallbackInfo ci) {
-        int amount = (int) MixcesAnimationsConfig.INSTANCE.getChunkLoading();
-        if (amount != 1) {
-            if (this.mixcesAnimations$timer > 0) {
-                --this.mixcesAnimations$timer;
-                ci.cancel();
-            }
-            this.mixcesAnimations$timer = amount;
+    private void mixcesAnimations$lazyChunkLoading(long finishTimeNano, CallbackInfo ci)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+
+        int amount = MixcesAnimationsConfig.INSTANCE.getChunkLoading() * (100 / 6);
+
+        if (mixcesAnimations$timer > 0)
+        {
+            --mixcesAnimations$timer;
+        }
+        else
+        {
+            mixcesAnimations$timer = amount;
         }
     }
 

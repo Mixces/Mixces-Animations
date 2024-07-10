@@ -8,7 +8,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityPlayer.class)
-public abstract class EntityPlayerMixin extends EntityMixin {
+public abstract class EntityPlayerMixin extends EntityMixin
+{
 
     @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 1.62F);
 
@@ -19,7 +20,8 @@ public abstract class EntityPlayerMixin extends EntityMixin {
             ),
             index = 1
     )
-    private float mixcesAnimations$captureF(float f) {
+    private float mixcesAnimations$captureF(float f)
+    {
         mixcesAnimations$f1.set(f);
         return f;
     }
@@ -32,8 +34,10 @@ public abstract class EntityPlayerMixin extends EntityMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$movePlayerCamera(CallbackInfoReturnable<Float> cir) {
-        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private void mixcesAnimations$movePlayerCamera(CallbackInfoReturnable<Float> cir)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             cir.setReturnValue(mixcesAnimations$f1.get() - mixcesAnimations$yOffset);
         }
     }

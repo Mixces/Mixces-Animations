@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ItemStack.class)
-public abstract class ItemStackMixin {
+public abstract class ItemStackMixin
+{
 
     @Inject(
             method = "getIsItemStackEqual",
@@ -19,8 +20,10 @@ public abstract class ItemStackMixin {
             ),
             cancellable = true
     )
-    public void mixcesAnimations$addCheck(ItemStack p_179549_1_, CallbackInfoReturnable<Boolean> cir) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    public void mixcesAnimations$addCheck(ItemStack p_179549_1_, CallbackInfoReturnable<Boolean> cir)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             Minecraft mc = Minecraft.getMinecraft();
             int currentItem = mc.thePlayer.inventory.currentItem;
             int equippedProgress = ((ItemRendererInterface) mc.getItemRenderer()).getEquippedItemSlot();

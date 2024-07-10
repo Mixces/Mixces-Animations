@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = Minecraft.class)
-public abstract class MinecraftMixin {
+public abstract class MinecraftMixin
+{
 
     @Shadow public GameSettings gameSettings;
     @Shadow public GuiScreen currentScreen;
@@ -26,7 +27,8 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z"
             )
     )
-    private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance) {
+    private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance)
+    {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
     }
 
@@ -37,7 +39,8 @@ public abstract class MinecraftMixin {
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;getIsHittingBlock()Z"
             )
     )
-    private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance) {
+    private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance)
+    {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.getIsHittingBlock();
     }
 
@@ -49,9 +52,14 @@ public abstract class MinecraftMixin {
                     ordinal = 0
             )
     )
-    private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus) {
+    private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus)
+        {
             leftClickCounter = 0;
         }
     }

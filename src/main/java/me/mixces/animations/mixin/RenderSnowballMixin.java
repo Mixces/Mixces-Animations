@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(value = RenderSnowball.class)
-public abstract class RenderSnowballMixin {
+public abstract class RenderSnowballMixin
+{
 
     @ModifyArg(
             method = "doRender",
@@ -18,8 +19,10 @@ public abstract class RenderSnowballMixin {
             ),
             index = 0
     )
-    private float mixcesAnimations$rotateProjectile(float angle) {
-        if (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled) {
+    private float mixcesAnimations$rotateProjectile(float angle)
+    {
+        if (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
             return 180.0F + angle;
         }
         return angle;
@@ -34,7 +37,8 @@ public abstract class RenderSnowballMixin {
             ),
             index = 0
     )
-    private float mixcesAnimations$useProperCameraView(float angle) {
+    private float mixcesAnimations$useProperCameraView(float angle)
+    {
         return (MixcesAnimationsConfig.INSTANCE.getOldProjectiles() && MixcesAnimationsConfig.INSTANCE.enabled ? -1F : 1F) * angle;
     }
 

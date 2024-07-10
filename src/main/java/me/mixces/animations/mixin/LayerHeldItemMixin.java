@@ -13,7 +13,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = LayerHeldItem.class)
-public class LayerHeldItemMixin {
+public class LayerHeldItemMixin
+{
 
     @Inject(
             method = "doRenderLayer",
@@ -22,9 +23,14 @@ public class LayerHeldItemMixin {
                     target = "Lnet/minecraft/client/model/ModelBiped;postRenderArm(F)V"
             )
     )
-    private void mixcesAnimations$addSneakTranslation(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float scale, CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (entitylivingbaseIn.isSneaking()) {
+    private void mixcesAnimations$addSneakTranslation(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float scale, CallbackInfo ci)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (entitylivingbaseIn.isSneaking())
+        {
             GlStateManager.translate(0.0F, 0.2F, 0.0F);
         }
     }
@@ -36,7 +42,8 @@ public class LayerHeldItemMixin {
                     target = "Lnet/minecraft/entity/EntityLivingBase;isSneaking()Z"
             )
     )
-    private boolean mixcesAnimations$disableSneakTranslation(EntityLivingBase instance) {
+    private boolean mixcesAnimations$disableSneakTranslation(EntityLivingBase instance)
+    {
         return (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isSneaking();
     }
 
@@ -47,15 +54,21 @@ public class LayerHeldItemMixin {
                     target = "Lnet/minecraft/client/renderer/ItemRenderer;renderItem(Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/block/model/ItemCameraTransforms$TransformType;)V"
             )
     )
-    private void mixcesAnimations$swordBlockPosition(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float s, CallbackInfo ci) {
-        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).isBlocking()) {
+    private void mixcesAnimations$swordBlockPosition(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float s, CallbackInfo ci)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).isBlocking())
+        {
             mixcesAnimations$doBlockTransformations();
         }
     }
 
     @Unique
-    private void mixcesAnimations$doBlockTransformations() {
+    private void mixcesAnimations$doBlockTransformations()
+    {
         GlStateManager.translate(0.05f, 0.0f, -0.1f);
         GlStateManager.rotate(-50.0f, 0.0f, 1.0f, 0.0f);
         GlStateManager.rotate(-10.0f, 1.0f, 0.0f, 0.0f);

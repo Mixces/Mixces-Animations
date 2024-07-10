@@ -14,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = PlayerControllerMP.class)
-public abstract class PlayerControllerMPMixin {
+public abstract class PlayerControllerMPMixin
+{
 
     @Shadow protected abstract boolean isHittingPosition(BlockPos pos);
     @Shadow public abstract void resetBlockRemoving();
@@ -28,7 +29,8 @@ public abstract class PlayerControllerMPMixin {
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;isHittingPosition(Lnet/minecraft/util/BlockPos;)Z"
             )
     )
-    private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos) {
+    private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos)
+    {
         return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled || instance.getIsHittingBlock()) && isHittingPosition(pos);
     }
 
@@ -41,10 +43,16 @@ public abstract class PlayerControllerMPMixin {
             ),
             cancellable = true
     )
-    private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir) {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) { return; }
-        if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit()) {
-            if (curBlockDamageMP > 0.0f) {
+    private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return;
+        }
+        if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit())
+        {
+            if (curBlockDamageMP > 0.0f)
+            {
                 resetBlockRemoving();
             }
             cir.setReturnValue(true);

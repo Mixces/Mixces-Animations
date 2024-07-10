@@ -1,14 +1,15 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
-import cc.polyfrost.oneconfig.config.annotations.Slider
+import cc.polyfrost.oneconfig.config.annotations.Dropdown
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
 import me.mixces.animations.MixcesAnimations
 import net.minecraft.client.Minecraft
 
-object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json") {
+object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json")
+{
 
     @Switch(
         name = "Block-Hitting Animation"
@@ -59,14 +60,19 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     )
     var oldDelay = true
 
-    @Slider(
+    @Dropdown(
         name = "Lazy Chunk Loading",
-        min = 0.0F,
-        max = 100.0F
+        options = ["Off", "Highest", "High", "Medium", "Low", "Lowest"]
     )
-    var chunkLoading = 0.0F
+    var chunkLoading = 0
 
-    init {
+    @Switch(
+        name = "Chunk Multi-Thread"
+    )
+    var chunkMultiThread = true
+
+    init
+    {
         initialize()
 
         val reloadWorld = Runnable { Minecraft.getMinecraft().renderGlobal.loadRenderers() }
