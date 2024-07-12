@@ -17,7 +17,7 @@ import javax.vecmath.Matrix4f;
         targets = "net.minecraftforge.client.model.ItemLayerModel$BakedItemModel",
         remap = false
 )
-public class BakedItemModelMixin
+public abstract class BakedItemModelMixin
 {
 
     @Shadow @Final private boolean isCulled;

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
         value = GuiIngameForge.class,
         remap = false
 )
-public class GuiIngameMixinForge
+public abstract class GuiIngameMixinForge
 {
 
     @ModifyVariable(

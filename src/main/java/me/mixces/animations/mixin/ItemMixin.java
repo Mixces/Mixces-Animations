@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Item.class)
-public class ItemMixin
+public abstract class ItemMixin
 {
 
     @Inject(

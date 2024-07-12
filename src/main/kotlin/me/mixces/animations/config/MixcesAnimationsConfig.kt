@@ -1,12 +1,11 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
-import cc.polyfrost.oneconfig.config.annotations.Dropdown
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
+import cc.polyfrost.oneconfig.utils.dsl.mc
 import me.mixces.animations.MixcesAnimations
-import net.minecraft.client.Minecraft
 
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json")
 {
@@ -60,23 +59,29 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     )
     var oldDelay = true
 
-    @Dropdown(
-        name = "Lazy Chunk Loading",
-        options = ["Off", "Highest", "High", "Medium", "Low", "Lowest"]
-    )
-    var chunkLoading = 0
-
     @Switch(
-        name = "Chunk Multi-Thread"
+        name = "Cache Tooltips"
     )
-    var chunkMultiThread = true
+    var cacheTooltips = true
+
+//    @Dropdown(
+//        name = "Lazy Chunk Loading",
+//        options = ["Off", "Highest", "High", "Medium", "Low", "Lowest"]
+//    )
+//    var chunkLoading = 0
+//
+//    @Switch(
+//        name = "Chunk Multi-Thread"
+//    )
+//    var chunkMultiThread = true
 
     init
     {
         initialize()
 
-        val reloadWorld = Runnable { Minecraft.getMinecraft().renderGlobal.loadRenderers() }
-        addListener("chunkLoading", reloadWorld)
+        addListener("chunkLoading") {
+            mc.renderGlobal.loadRenderers()
+        }
     }
     
 }

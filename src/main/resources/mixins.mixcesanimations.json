@@ -30,8 +30,6 @@
     "interfaces.EntityLivingBaseInterface",
     "interfaces.ItemRendererInterface",
     "interfaces.RendererLivingEntityInterface",
-    "lazychunk.AnvilChunkLoaderMixin",
-    "lazychunk.RenderGlobalMixin",
     "performance.LongHashMapMixin"
   ],
   "verbose": true
