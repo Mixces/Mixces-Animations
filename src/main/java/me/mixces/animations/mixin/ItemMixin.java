@@ -1,6 +1,8 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +26,7 @@ public abstract class ItemMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            cir.setReturnValue(slotChanged);
+            cir.setReturnValue(slotChanged || Minecraft.getMinecraft().currentScreen instanceof GuiContainer);
         }
     }
 

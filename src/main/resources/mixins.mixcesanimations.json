@@ -3,12 +3,10 @@
   "minVersion": "0.7",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
-  "injectors":
-  {
+  "injectors": {
     "maxShiftBy": 5
   },
-  "client":
-  [
+  "client": [
     "BakedItemModelMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
