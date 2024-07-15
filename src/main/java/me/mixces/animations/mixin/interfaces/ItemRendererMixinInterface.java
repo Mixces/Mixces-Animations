@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ItemRenderer.class)
-public interface ItemRendererInterface
+public interface ItemRendererMixinInterface
 {
 
     @Accessor int getEquippedItemSlot();

@@ -24,6 +24,7 @@ object MixcesAnimations
     @Mod.EventHandler
     fun onInit(event: FMLInitializationEvent?)
     {
+        println("MixcesAnimations has been initialized!")
         MixcesAnimationsConfig
     }
 

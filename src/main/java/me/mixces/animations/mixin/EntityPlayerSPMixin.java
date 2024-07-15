@@ -1,6 +1,6 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.interfaces.EntityLivingBaseInterface;
+import me.mixces.animations.mixin.interfaces.EntityLivingBaseMixinInterface;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.MovementInput;
 import me.mixces.animations.config.MixcesAnimationsConfig;
@@ -61,7 +61,7 @@ public abstract class EntityPlayerSPMixin extends EntityMixin
     @Unique
     private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer)
     {
-        int armSwingAnimationEnd = ((EntityLivingBaseInterface) thePlayer).invokeGetArmSwingAnimationEnd();
+        int armSwingAnimationEnd = ((EntityLivingBaseMixinInterface) thePlayer).invokeGetArmSwingAnimationEnd();
         if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0)
         {
             thePlayer.swingProgressInt = -1;

@@ -1,6 +1,7 @@
 {
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
+  "plugin": "me.mixces.animations.MixcesAnimationsMixinPlugin",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
   "injectors": {
@@ -25,9 +26,9 @@
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "interfaces.EntityLivingBaseInterface",
-    "interfaces.ItemRendererInterface",
-    "interfaces.RendererLivingEntityInterface",
+    "interfaces.EntityLivingBaseMixinInterface",
+    "interfaces.ItemRendererMixinInterface",
+    "interfaces.RendererLivingEntityMixinInterface",
     "performance.LongHashMapMixin"
   ],
   "verbose": true

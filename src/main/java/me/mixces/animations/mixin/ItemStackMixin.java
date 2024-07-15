@@ -1,7 +1,7 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
-import me.mixces.animations.mixin.interfaces.ItemRendererInterface;
+import me.mixces.animations.mixin.interfaces.ItemRendererMixinInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,7 +26,7 @@ public abstract class ItemStackMixin
         {
             Minecraft mc = Minecraft.getMinecraft();
             int currentItem = mc.thePlayer.inventory.currentItem;
-            int equippedProgress = ((ItemRendererInterface) mc.getItemRenderer()).getEquippedItemSlot();
+            int equippedProgress = ((ItemRendererMixinInterface) mc.getItemRenderer()).getEquippedItemSlot();
             cir.setReturnValue(cir.getReturnValue() && equippedProgress == currentItem);
         }
     }

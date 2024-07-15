@@ -1,6 +1,6 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.interfaces.RendererLivingEntityInterface;
+import me.mixces.animations.mixin.interfaces.RendererLivingEntityMixinInterface;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
@@ -50,10 +50,10 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
         {
             return;
         }
-        if (((RendererLivingEntityInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
+        if (((RendererLivingEntityMixinInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
         {
             mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
-            ((RendererLivingEntityInterface) renderer).invokeUnsetBrightness();
+            ((RendererLivingEntityMixinInterface) renderer).invokeUnsetBrightness();
         }
     }
 
