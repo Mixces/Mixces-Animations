@@ -33,6 +33,7 @@ public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> exte
         {
             return;
         }
+
         if (entity instanceof EntityPlayer && entity.isSneaking())
         {
             GlStateManager.translate(0.0F, -0.2F, 0.0F);

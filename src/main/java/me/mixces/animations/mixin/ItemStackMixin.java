@@ -24,9 +24,9 @@ public abstract class ItemStackMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            Minecraft mc = Minecraft.getMinecraft();
-            int currentItem = mc.thePlayer.inventory.currentItem;
-            int equippedProgress = ((ItemRendererMixinInterface) mc.getItemRenderer()).getEquippedItemSlot();
+            final Minecraft mc = Minecraft.getMinecraft();
+            final int currentItem = mc.thePlayer.inventory.currentItem;
+            final int equippedProgress = ((ItemRendererMixinInterface) mc.getItemRenderer()).getEquippedItemSlot();
             cir.setReturnValue(cir.getReturnValue() && equippedProgress == currentItem);
         }
     }

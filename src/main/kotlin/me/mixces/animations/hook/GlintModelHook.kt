@@ -10,22 +10,36 @@ object GlintModelHook
 
     private val glintMap = hashMapOf<HashedModel, IBakedModel>()
 
-    fun getGlint(model: IBakedModel): IBakedModel =
-        glintMap.computeIfAbsent(HashedModel(model))
+    fun getGlint(model: IBakedModel): IBakedModel
+    {
+        return glintMap.computeIfAbsent(HashedModel(model))
         {
             SimpleBakedModel.Builder(model, JustUV).makeBakedModel()
         }
+    }
 
     data class HashedModel(val data: List<Int>)
     {
-        constructor(model: IBakedModel) : this(
-            (EnumFacing.entries.flatMap { face -> model.getFaceQuads(face) } + model.generalQuads).flatMap { it.vertexData.slice(0..2) }
-        )
+        constructor(model: IBakedModel) :
+            this(
+                (
+                    EnumFacing.entries.flatMap
+                    {
+                        face -> model.getFaceQuads(face)
+                    }
+                    + model.generalQuads
+                )
+                    .flatMap
+                {
+                    it.vertexData.slice(0..2)
+                }
+            )
     }
 
     object JustUV : TextureAtlasSprite("uv")
     {
         override fun getInterpolatedU(u: Double) = (u / 16).toFloat()
+
         override fun getInterpolatedV(v: Double) = (v / 16).toFloat()
     }
 

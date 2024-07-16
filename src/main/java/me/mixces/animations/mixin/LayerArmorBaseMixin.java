@@ -50,10 +50,13 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
         {
             return;
         }
-        if (((RendererLivingEntityMixinInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
+
+        final RendererLivingEntityMixinInterface rendererLivingEntity = (RendererLivingEntityMixinInterface) this.renderer;
+
+        if (rendererLivingEntity.invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
         {
             mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
-            ((RendererLivingEntityMixinInterface) renderer).invokeUnsetBrightness();
+            rendererLivingEntity.invokeUnsetBrightness();
         }
     }
 

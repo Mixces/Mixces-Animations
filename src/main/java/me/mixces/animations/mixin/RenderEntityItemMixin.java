@@ -50,6 +50,7 @@ public abstract class RenderEntityItemMixin extends Render<EntityItem>
         {
             return angle;
         }
+
         if (mixcesAnimations$isGui3d.get())
         {
             return angle;

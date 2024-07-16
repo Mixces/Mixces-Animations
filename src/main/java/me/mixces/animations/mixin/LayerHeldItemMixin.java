@@ -29,6 +29,7 @@ public abstract class LayerHeldItemMixin
         {
             return;
         }
+
         if (entitylivingbaseIn.isSneaking())
         {
             GlStateManager.translate(0.0F, 0.2F, 0.0F);
@@ -60,6 +61,7 @@ public abstract class LayerHeldItemMixin
         {
             return;
         }
+
         if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).isBlocking())
         {
             mixcesAnimations$doBlockTransformations();

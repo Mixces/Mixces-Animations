@@ -47,6 +47,7 @@ public abstract class ModelBipedMixin
         {
             return;
         }
+
         bipedRightArm.rotateAngleY = 0.0f;
     }
 

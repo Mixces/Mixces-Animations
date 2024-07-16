@@ -49,12 +49,14 @@ public abstract class PlayerControllerMPMixin
         {
             return;
         }
+
         if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit())
         {
             if (curBlockDamageMP > 0.0f)
             {
                 resetBlockRemoving();
             }
+
             cir.setReturnValue(true);
         }
     }

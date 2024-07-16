@@ -59,27 +59,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     )
     var oldDelay = true
 
-    @Switch(
-        name = "Cache Tooltips"
-    )
-    var cacheTooltips = true
-
-//    @Dropdown(
-//        name = "Lazy Chunk Loading",
-//        options = ["Off", "Highest", "High", "Medium", "Low", "Lowest"]
-//    )
-//    var chunkLoading = 0
-//
-//    @Switch(
-//        name = "Chunk Multi-Thread"
-//    )
-//    var chunkMultiThread = true
-
     init
     {
         initialize()
 
-        addListener("chunkLoading") {
+        addListener("chunkLoading")
+        {
             mc.renderGlobal.loadRenderers()
         }
     }

@@ -58,6 +58,7 @@ public abstract class MinecraftMixin
         {
             return;
         }
+
         if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus)
         {
             leftClickCounter = 0;

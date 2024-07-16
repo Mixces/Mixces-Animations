@@ -58,6 +58,7 @@ public abstract class RenderItemMixin
         {
             return;
         }
+
         for (int i : new int[]{0, 1, 2})
         {
             args.set(i, 1 / (float) args.get(i));

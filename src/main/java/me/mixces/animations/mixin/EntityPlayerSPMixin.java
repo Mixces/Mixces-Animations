@@ -30,6 +30,7 @@ public abstract class EntityPlayerSPMixin extends EntityMixin
         {
             return;
         }
+
         if (movementInput.sneak && mixcesAnimations$ySize < 0.2F)
         {
             mixcesAnimations$ySize = 0.2F;
@@ -49,7 +50,7 @@ public abstract class EntityPlayerSPMixin extends EntityMixin
             return;
         }
 
-        EntityPlayerSP player = ((EntityPlayerSP) (Object) this);
+        final EntityPlayerSP player = ((EntityPlayerSP) (Object) this);
 
         if (player.isUsingItem())
         {
@@ -61,7 +62,8 @@ public abstract class EntityPlayerSPMixin extends EntityMixin
     @Unique
     private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer)
     {
-        int armSwingAnimationEnd = ((EntityLivingBaseMixinInterface) thePlayer).invokeGetArmSwingAnimationEnd();
+        final int armSwingAnimationEnd = ((EntityLivingBaseMixinInterface) thePlayer).invokeGetArmSwingAnimationEnd();
+
         if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0)
         {
             thePlayer.swingProgressInt = -1;

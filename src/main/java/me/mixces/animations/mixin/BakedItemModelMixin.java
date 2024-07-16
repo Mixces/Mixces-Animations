@@ -37,6 +37,7 @@ public abstract class BakedItemModelMixin
         {
             return;
         }
+
         if ((type == ItemCameraTransforms.TransformType.GROUND || type == ItemCameraTransforms.TransformType.FIXED) && !isCulled && cir.getReturnValue().getRight() == null)
         {
             cir.setReturnValue(Pair.of(otherModel, null));
