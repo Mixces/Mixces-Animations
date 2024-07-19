@@ -27,6 +27,7 @@ public abstract class ItemStackMixin
             final Minecraft mc = Minecraft.getMinecraft();
             final int currentItem = mc.thePlayer.inventory.currentItem;
             final int equippedProgress = ((ItemRendererMixinInterface) mc.getItemRenderer()).getEquippedItemSlot();
+
             cir.setReturnValue(cir.getReturnValue() && equippedProgress == currentItem);
         }
     }

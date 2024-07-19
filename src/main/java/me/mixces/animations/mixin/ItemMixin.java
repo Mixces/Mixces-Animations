@@ -26,7 +26,9 @@ public abstract class ItemMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            cir.setReturnValue(slotChanged || Minecraft.getMinecraft().currentScreen instanceof GuiContainer);
+            final boolean isInGui = Minecraft.getMinecraft().currentScreen instanceof GuiContainer;
+
+            cir.setReturnValue(slotChanged || isInGui);
         }
     }
 

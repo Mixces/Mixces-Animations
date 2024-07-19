@@ -2,6 +2,7 @@ package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -81,6 +82,24 @@ public abstract class RenderEntityItemMixin extends Render<EntityItem>
         {
             GlStateManager.rotate(-renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         }
+    }
+
+    @ModifyArg(
+            method = "doRender(Lnet/minecraft/entity/item/EntityItem;DDDFF)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraftforge/client/ForgeHooksClient;handleCameraTransforms(Lnet/minecraft/client/resources/model/IBakedModel;Lnet/minecraft/client/renderer/block/model/ItemCameraTransforms$TransformType;)Lnet/minecraft/client/resources/model/IBakedModel;"
+            ),
+            index = 1
+    )
+    private ItemCameraTransforms.TransformType mixcesAnimations$replaceTransform(ItemCameraTransforms.TransformType cameraTransformType)
+    {
+        if (!MixcesAnimationsConfig.INSTANCE.getFastItems() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return cameraTransformType;
+        }
+
+        return ItemCameraTransforms.TransformType.GUI;
     }
 
 }
