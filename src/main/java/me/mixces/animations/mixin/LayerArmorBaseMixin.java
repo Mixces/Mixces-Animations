@@ -4,7 +4,6 @@ import me.mixces.animations.mixin.interfaces.RendererLivingEntityMixinInterface;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Final;
@@ -17,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = LayerArmorBase.class)
-public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerRenderer<EntityLivingBase>
+public abstract class LayerArmorBaseMixin<T extends ModelBase>
 {
 
     @Shadow @Final private RendererLivingEntity<?> renderer;
@@ -51,12 +50,13 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase> implements LayerR
             return;
         }
 
-        final RendererLivingEntityMixinInterface rendererLivingEntity = (RendererLivingEntityMixinInterface) this.renderer;
 
-        if (rendererLivingEntity.invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
+        if (((RendererLivingEntityMixinInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
         {
-            mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
-            rendererLivingEntity.invokeUnsetBrightness();
+            final ModelBase model = mixcesAnimations$t.get();
+
+            model.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
+            ((RendererLivingEntityMixinInterface) renderer).invokeUnsetBrightness();
         }
     }
 

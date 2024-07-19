@@ -61,7 +61,9 @@ public abstract class EntityPlayerSPMixin extends EntityLivingBaseMixin
     @Unique
     private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer)
     {
-        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= getArmSwingAnimationEnd() / 2 || thePlayer.swingProgressInt < 0)
+        final int armSwingAnimationEnd = mixcesAnimations$getArmSwingAnimationEnd();
+
+        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0)
         {
             thePlayer.swingProgressInt = -1;
             thePlayer.isSwingInProgress = true;
