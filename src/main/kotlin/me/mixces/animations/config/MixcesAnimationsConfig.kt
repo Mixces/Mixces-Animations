@@ -4,7 +4,6 @@ import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
-import cc.polyfrost.oneconfig.utils.dsl.mc
 import me.mixces.animations.MixcesAnimations
 
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json")
@@ -62,11 +61,6 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     init
     {
         initialize()
-
-        addListener("chunkLoading")
-        {
-            mc.renderGlobal.loadRenderers()
-        }
     }
     
 }

@@ -20,20 +20,7 @@ object GlintModelHook
 
     data class HashedModel(val data: List<Int>)
     {
-        constructor(model: IBakedModel) :
-            this(
-                (
-                    EnumFacing.entries.flatMap
-                    {
-                        face -> model.getFaceQuads(face)
-                    }
-                    + model.generalQuads
-                )
-                    .flatMap
-                {
-                    it.vertexData.slice(0..2)
-                }
-            )
+        constructor(model: IBakedModel) : this((EnumFacing.entries.flatMap { face -> model.getFaceQuads(face) } + model.generalQuads).flatMap { it.vertexData.slice(0..2) })
     }
 
     object JustUV : TextureAtlasSprite("uv")

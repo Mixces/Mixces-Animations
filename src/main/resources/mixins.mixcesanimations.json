@@ -9,6 +9,7 @@
   },
   "client": [
     "BakedItemModelMixin",
+    "EntityLivingBaseMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
     "EntityPlayerMixin",
@@ -26,7 +27,6 @@
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "interfaces.EntityLivingBaseMixinInterface",
     "interfaces.ItemRendererMixinInterface",
     "interfaces.RendererLivingEntityMixinInterface",
     "performance.LongHashMapMixin"
