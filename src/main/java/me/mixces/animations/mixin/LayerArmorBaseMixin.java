@@ -53,9 +53,7 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase>
 
         if (((RendererLivingEntityMixinInterface) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks))
         {
-            final ModelBase model = mixcesAnimations$t.get();
-
-            model.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
+            mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
             ((RendererLivingEntityMixinInterface) renderer).invokeUnsetBrightness();
         }
     }
