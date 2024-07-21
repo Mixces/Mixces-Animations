@@ -24,7 +24,8 @@ public abstract class EntityPlayerSPMixin extends EntityLivingBaseMixin
                     ordinal = 0
             )
     )
-    private void mixcesAnimations$onSneakYSize(CallbackInfo ci) {
+    private void mixcesAnimations$onSneakYSize(CallbackInfo ci)
+    {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
         {
             return;
@@ -43,7 +44,8 @@ public abstract class EntityPlayerSPMixin extends EntityLivingBaseMixin
             ),
             cancellable = true
     )
-    private void mixcesAnimations$removeSwingPackets(CallbackInfo ci) {
+    private void mixcesAnimations$removeSwingPackets(CallbackInfo ci)
+    {
         if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
         {
             return;

@@ -15,7 +15,7 @@
     "EntityPlayerSPMixin",
     "GuiIngameMixinForge",
     "ItemMixin",
-    "ItemRendererMixin",
+//    "ItemRendererMixin",
     "ItemStackMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
