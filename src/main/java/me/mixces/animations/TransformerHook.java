@@ -2,7 +2,9 @@ package me.mixces.animations;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
 
-public class TransformerHook {
+@SuppressWarnings("unused")
+public class TransformerHook
+{
 
     public static float localVar(float original, float local)
     {

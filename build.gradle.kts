@@ -52,7 +52,7 @@ loom {
         runConfigs {
             "client" {
                 programArgs("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
-                property("-Dfml.coreMods.load", "me.mixces.animations.MixcesAnimationsTweaker")
+                property("fml.coreMods.load", "me.mixces.animations.MixcesAnimationsTweaker")
                 property("mixin.debug.export", "true") // Outputs all mixin changes to `versions/{mcVersion}/run/.mixin.out/class`
             }
         }
