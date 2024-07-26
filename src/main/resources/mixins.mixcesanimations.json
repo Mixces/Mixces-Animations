@@ -4,10 +4,12 @@
   "plugin": "me.mixces.animations.MixcesAnimationsMixinPlugin",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
-  "injectors": {
+  "injectors":
+  {
     "maxShiftBy": 5
   },
-  "client": [
+  "client":
+  [
     "EntityLivingBaseMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
@@ -22,7 +24,6 @@
     "MinecraftMixin",
     "ModelBipedMixin",
     "PlayerControllerMPMixin",
-    "RenderEntityItemMixin",
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",

@@ -42,7 +42,7 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin
             at = @At(
                     value = "HEAD"
             ),
-            cancellable = true
+            cancellable = (true)
     )
     private void mixcesAnimations$removeSwingPackets(CallbackInfo ci)
     {
@@ -66,7 +66,7 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin
         if (!isSwingInProgress || swingProgressInt >= armSwingAnimationEnd / 2 || swingProgressInt < 0)
         {
             swingProgressInt = -1;
-            isSwingInProgress = true;
+            isSwingInProgress = (true);
         }
     }
 

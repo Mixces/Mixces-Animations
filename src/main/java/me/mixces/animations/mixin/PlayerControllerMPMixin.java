@@ -45,7 +45,7 @@ public abstract class PlayerControllerMPMixin
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;syncCurrentPlayItem()V",
                     shift = At.Shift.AFTER
             ),
-            cancellable = true
+            cancellable = (true)
     )
     private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir)
     {

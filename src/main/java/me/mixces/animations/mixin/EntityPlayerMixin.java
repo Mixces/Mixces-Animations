@@ -34,12 +34,13 @@ public abstract class EntityPlayerMixin extends EntityLivingBaseMixin
                     value = "INVOKE",
                     target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"
             ),
-            cancellable = true
+            cancellable = (true)
     )
     private void mixcesAnimations$movePlayerCamera(CallbackInfoReturnable<Float> cir)
     {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
+            System.out.println("getEyeHeight" + mixcesAnimations$yOffset);
             cir.setReturnValue(mixcesAnimations$f1.get() - mixcesAnimations$yOffset);
         }
     }

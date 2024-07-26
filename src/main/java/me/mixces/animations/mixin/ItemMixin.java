@@ -19,8 +19,8 @@ public abstract class ItemMixin
             at = @At(
                     value = "HEAD"
             ),
-            cancellable = true,
-            remap = false
+            cancellable = (true),
+            remap = (false)
     )
     public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir)
     {

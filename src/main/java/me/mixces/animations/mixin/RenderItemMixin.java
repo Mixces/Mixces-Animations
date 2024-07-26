@@ -2,20 +2,10 @@ package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.hook.GlintModelHook;
-import me.mixces.animations.util.GlHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCarpet;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.item.ItemBanner;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(value = RenderItem.class)
@@ -72,70 +62,6 @@ public abstract class RenderItemMixin
         for (int i : new int[]{0, 1, 2})
         {
             args.set(i, 1 / (float) args.get(i));
-        }
-    }
-
-    @Inject(
-            method = "renderItemModelTransform",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
-            )
-    )
-    public void mixcesAnimations$modifyModelPosition(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci)
-    {
-        if (!MixcesAnimationsConfig.INSTANCE.getItemPositions() || !MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return;
-        }
-
-        if (stack == null || stack.getItem() == null || stack.getItem() instanceof ItemBanner)
-        {
-            return;
-        }
-
-        final boolean isRod = stack.getItem().shouldRotateAroundWhenRendering();
-        final boolean isBlock = stack.getItem() instanceof ItemBlock;
-        boolean isCarpet = false;
-
-        if (isBlock)
-        {
-            final Block block = ((ItemBlock) stack.getItem()).getBlock();
-            isCarpet = block instanceof BlockCarpet || block instanceof BlockSnow;
-        }
-
-        if (cameraTransformType == ItemCameraTransforms.TransformType.FIRST_PERSON)
-        {
-            if (isRod)
-            {
-                GlHelper.INSTANCE.yaw(180.0F).roll(50.0F);
-            }
-            else if (isCarpet)
-            {
-                GlStateManager.translate(0.0F, -5.25F * 0.0625F, 0.0F);
-            }
-        }
-        else if (cameraTransformType == ItemCameraTransforms.TransformType.THIRD_PERSON)
-        {
-            if (isRod)
-            {
-                GlHelper.INSTANCE.yaw(180.0F).roll(110.0F);
-                GlStateManager.translate(0.002F, 0.037F, -0.003F);
-            }
-            else if (isCarpet)
-            {
-                GlStateManager.translate(0.0F, -0.25F, 0.0F);
-            }
-            else if (isBlock)
-            {
-                if (Block.getBlockFromItem(stack.getItem()).getRenderType() != 2)
-                {
-                    GlStateManager.translate(-0.0285F, -0.0375F, 0.0285F);
-                    GlHelper.INSTANCE.pitch(-5.0F).roll(-5.0F);
-                }
-
-                GlStateManager.scale(-1.0F, 1.0F, -1.0F);
-            }
         }
     }
 

@@ -13,19 +13,19 @@ public class MixcesAnimationsMixinPlugin implements IMixinConfigPlugin
     @Override
     public void onLoad(String mixinPackage)
     {
-        System.out.println("MixcesAnimations mixins have loaded!");
+        System.out.println(MixcesAnimations.NAME + " mixins have loaded!");
     }
 
     @Override
     public String getRefMapperConfig()
     {
-        return "";
+        return (null);
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        return true;
+        return (true);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MixcesAnimationsMixinPlugin implements IMixinConfigPlugin
     @Override
     public List<String> getMixins()
     {
-        return null;
+        return (null);
     }
 
     @Override

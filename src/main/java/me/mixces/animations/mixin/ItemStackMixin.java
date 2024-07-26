@@ -18,7 +18,7 @@ public abstract class ItemStackMixin
             at = @At(
                     value = "RETURN"
             ),
-            cancellable = true
+            cancellable = (true)
     )
     public void mixcesAnimations$addCheck(ItemStack p_179549_1_, CallbackInfoReturnable<Boolean> cir)
     {

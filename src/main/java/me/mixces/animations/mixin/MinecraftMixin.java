@@ -31,7 +31,7 @@ public abstract class MinecraftMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            return false;
+            return (false);
         }
         return instance.isUsingItem();
     }
@@ -47,7 +47,7 @@ public abstract class MinecraftMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            return false;
+            return (false);
         }
         return instance.getIsHittingBlock();
     }
@@ -67,7 +67,7 @@ public abstract class MinecraftMixin
             return;
         }
 
-        if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus)
+        if (currentScreen != (null) || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus)
         {
             leftClickCounter = 0;
         }

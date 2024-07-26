@@ -62,6 +62,7 @@ public abstract class EntityMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
+            System.out.println("resetPositionToBB" + mixcesAnimations$yOffset);
             posY += mixcesAnimations$yOffset - mixcesAnimations$ySize;
         }
     }

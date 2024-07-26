@@ -1,11 +1,8 @@
 package me.mixces.animations
 
-import cc.polyfrost.oneconfig.utils.commands.CommandManager
-import me.mixces.animations.command.MixcesAnimationsCommand
 import me.mixces.animations.config.MixcesAnimationsConfig
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 
 
 @Mod(
@@ -24,14 +21,8 @@ object MixcesAnimations
     @Mod.EventHandler
     fun onInit(event: FMLInitializationEvent?)
     {
-        println("MixcesAnimations has been initialized!")
+        println("$NAME has been initialized!")
         MixcesAnimationsConfig
-    }
-
-    @Mod.EventHandler
-    fun postInit(event: FMLPostInitializationEvent?)
-    {
-        CommandManager.INSTANCE.registerCommand(MixcesAnimationsCommand())
     }
 
 }
