@@ -28,7 +28,7 @@ public class GlHelper {
     public GlHelper translate(float x, float y, float z)
     {
         GlStateManager.translate(x, y, z);
-        return this;
+        return (this);
     }
 
 }
