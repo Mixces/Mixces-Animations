@@ -1,7 +1,7 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
-import me.mixces.animations.mixin.interfaces.ItemRendererMixinInterface;
+import me.mixces.animations.mixin.access.ItemRendererMixinInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

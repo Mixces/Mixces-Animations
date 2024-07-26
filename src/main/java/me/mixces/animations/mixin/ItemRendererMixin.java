@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ItemRenderer.class)
 public abstract class ItemRendererMixin
@@ -50,6 +51,17 @@ public abstract class ItemRendererMixin
             return mixcesAnimations$f1.get();
         }
         return swingProgress;
+    }
+
+    @Inject(
+            method = "renderItemInFirstPerson",
+            at = @At(
+                    value = "TAIL"
+            )
+    )
+    private void mixcesAnimations$clearThreadLocalF1(CallbackInfo ci)
+    {
+        mixcesAnimations$f1.remove();
     }
 
 }

@@ -1,8 +1,6 @@
 package me.mixces.animations.mixin;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import me.mixces.animations.util.GlHelper;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,15 +10,9 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = RendererLivingEntity.class)
-public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> extends Render<T>
+public abstract class RendererLivingEntityMixin
 {
 
-    protected RendererLivingEntityMixin(RenderManager renderManager)
-    {
-        super(renderManager);
-    }
-
-    //todo: modifyarg
     @Inject(
             method = "doRender(Lnet/minecraft/entity/EntityLivingBase;DDDFF)V",
             at = @At(
@@ -28,7 +20,7 @@ public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> exte
                     target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V"
             )
     )
-    private void mixcesAnimations$addModelSneakingTranslation(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci)
+    private void mixcesAnimations$addModelSneakingTranslation(EntityLivingBase entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci)
     {
         if (!MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() || !MixcesAnimationsConfig.INSTANCE.enabled)
         {
@@ -37,7 +29,7 @@ public abstract class RendererLivingEntityMixin<T extends EntityLivingBase> exte
 
         if (entity instanceof EntityPlayer && entity.isSneaking())
         {
-            GlStateManager.translate(0.0F, -0.2F, 0.0F);
+            GlHelper.INSTANCE.translate(0.0F, -0.2F, 0.0F);
         }
     }
 

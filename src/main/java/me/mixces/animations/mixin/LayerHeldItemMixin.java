@@ -1,7 +1,6 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.util.GlHelper;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLivingBase;
 import me.mixces.animations.config.MixcesAnimationsConfig;
@@ -32,7 +31,7 @@ public abstract class LayerHeldItemMixin
 
         if (entitylivingbaseIn.isSneaking())
         {
-            GlStateManager.translate(0.0F, 0.2F, 0.0F);
+            GlHelper.INSTANCE.translate(0.0F, 0.2F, 0.0F);
         }
     }
 
@@ -68,8 +67,7 @@ public abstract class LayerHeldItemMixin
 
         if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).isBlocking())
         {
-            GlStateManager.translate(0.05F, 0.0F, -0.1F);
-            GlHelper.INSTANCE.yaw(-50.0F).pitch(-10.0F).roll(-60.0F);
+            GlHelper.INSTANCE.translate(0.05F, 0.0F, -0.1F).yaw(-50.0F).pitch(-10.0F).roll(-60.0F);
         }
     }
 

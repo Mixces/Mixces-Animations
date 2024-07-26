@@ -1,6 +1,6 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.interfaces.RendererLivingEntityMixinInterface;
+import me.mixces.animations.mixin.access.RendererLivingEntityMixinInterface;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = LayerArmorBase.class)
-public abstract class LayerArmorBaseMixin<T extends ModelBase>
+public abstract class LayerArmorBaseMixin
 {
 
     @Shadow @Final private RendererLivingEntity<?> renderer;
@@ -29,7 +29,7 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase>
             ),
             index = 12
     )
-    private T mixcesAnimations$captureT(T t)
+    private ModelBase mixcesAnimations$captureT(ModelBase t)
     {
         mixcesAnimations$t.set(t);
         return t;
@@ -56,6 +56,17 @@ public abstract class LayerArmorBaseMixin<T extends ModelBase>
             mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
             ((RendererLivingEntityMixinInterface) renderer).invokeUnsetBrightness();
         }
+    }
+
+    @Inject(
+            method = "renderLayer",
+            at = @At(
+                    value = "TAIL"
+            )
+    )
+    private void mixcesAnimations$clearThreadLocalT(CallbackInfo ci)
+    {
+        mixcesAnimations$t.remove();
     }
 
 }

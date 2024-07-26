@@ -13,7 +13,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBaseMixin
 {
 
     @Shadow public abstract boolean isUsingItem();
-    @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 1.62F);
+    @Unique private static final ThreadLocal<Float> mixcesAnimations$f = ThreadLocal.withInitial(() -> 1.62F);
 
     @ModifyVariable(
             method = "getEyeHeight",
@@ -24,7 +24,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBaseMixin
     )
     private float mixcesAnimations$captureF(float f)
     {
-        mixcesAnimations$f1.set(f);
+        mixcesAnimations$f.set(f);
         return f;
     }
 
@@ -40,8 +40,9 @@ public abstract class EntityPlayerMixin extends EntityLivingBaseMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            System.out.println("getEyeHeight" + mixcesAnimations$yOffset);
-            cir.setReturnValue(mixcesAnimations$f1.get() - mixcesAnimations$yOffset);
+            float f = mixcesAnimations$f.get();
+            mixcesAnimations$f.remove();
+            cir.setReturnValue(f);
         }
     }
 

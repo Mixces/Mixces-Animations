@@ -27,9 +27,8 @@
     "RendererLivingEntityMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "interfaces.ItemRendererMixinInterface",
-    "interfaces.RendererLivingEntityMixinInterface",
-    "performance.LongHashMapMixin"
+    "access.ItemRendererMixinInterface",
+    "access.RendererLivingEntityMixinInterface"
   ],
   "verbose": true
 }

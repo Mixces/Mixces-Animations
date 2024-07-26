@@ -15,7 +15,6 @@ public abstract class EntityMixin
 {
 
     @Shadow public double posY;
-    @Unique public float mixcesAnimations$yOffset;
     @Unique public float mixcesAnimations$ySize;
 
     @Inject(
@@ -62,8 +61,7 @@ public abstract class EntityMixin
     {
         if (MixcesAnimationsConfig.INSTANCE.getSmoothSneaking() && MixcesAnimationsConfig.INSTANCE.enabled)
         {
-            System.out.println("resetPositionToBB" + mixcesAnimations$yOffset);
-            posY += mixcesAnimations$yOffset - mixcesAnimations$ySize;
+            posY -= mixcesAnimations$ySize;
         }
     }
 
