@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerControllerMPMixin
 {
 
-    @Shadow protected abstract boolean isHittingPosition(BlockPos pos);
-    @Shadow public abstract void resetBlockRemoving();
     @Shadow @Final private Minecraft mc;
     @Shadow private float curBlockDamageMP;
+    @Shadow protected abstract boolean isHittingPosition(BlockPos pos);
+    @Shadow public abstract void resetBlockRemoving();
 
     @Redirect(
             method = "onPlayerDamageBlock",
@@ -31,7 +31,11 @@ public abstract class PlayerControllerMPMixin
     )
     private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos)
     {
-        return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled || instance.getIsHittingBlock()) && isHittingPosition(pos);
+        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return instance.getIsHittingBlock() && isHittingPosition(pos);
+        }
+        return isHittingPosition(pos);
     }
 
     @Inject(
@@ -45,7 +49,7 @@ public abstract class PlayerControllerMPMixin
     )
     private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir)
     {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        if (!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
         {
             return;
         }

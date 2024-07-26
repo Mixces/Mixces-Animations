@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityPlayerSP.class)
-public abstract class EntityPlayerSPMixin extends EntityLivingBaseMixin
+public abstract class EntityPlayerSPMixin extends EntityPlayerMixin
 {
 
     @Shadow public MovementInput movementInput;
@@ -46,29 +46,27 @@ public abstract class EntityPlayerSPMixin extends EntityLivingBaseMixin
     )
     private void mixcesAnimations$removeSwingPackets(CallbackInfo ci)
     {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
+        if (!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
         {
             return;
         }
 
-        final EntityPlayerSP player = ((EntityPlayerSP) (Object) this);
-
-        if (player.isUsingItem())
+        if (isUsingItem())
         {
             ci.cancel();
-            mixcesAnimations$swingItem(player);
+            mixcesAnimations$swingItem();
         }
     }
 
     @Unique
-    private void mixcesAnimations$swingItem(EntityPlayerSP thePlayer)
+    private void mixcesAnimations$swingItem()
     {
         final int armSwingAnimationEnd = mixcesAnimations$getArmSwingAnimationEnd();
 
-        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= armSwingAnimationEnd / 2 || thePlayer.swingProgressInt < 0)
+        if (!isSwingInProgress || swingProgressInt >= armSwingAnimationEnd / 2 || swingProgressInt < 0)
         {
-            thePlayer.swingProgressInt = -1;
-            thePlayer.isSwingInProgress = true;
+            swingProgressInt = -1;
+            isSwingInProgress = true;
         }
     }
 

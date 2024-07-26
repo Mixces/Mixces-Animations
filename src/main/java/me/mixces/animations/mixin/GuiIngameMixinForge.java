@@ -23,7 +23,11 @@ public abstract class GuiIngameMixinForge
     )
     private boolean mixcesAnimations$disableFlashingCheck(boolean value)
     {
-        return (!MixcesAnimationsConfig.INSTANCE.getOldHearts() || !MixcesAnimationsConfig.INSTANCE.enabled) && value;
+        if (!MixcesAnimationsConfig.INSTANCE.getOldHearts() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return false;
+        }
+        return value;
     }
 
 }

@@ -9,6 +9,8 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class EntityLivingBaseMixin extends EntityMixin
 {
 
+    @Shadow public boolean isSwingInProgress;
+    @Shadow public int swingProgressInt;
     @Shadow protected abstract int getArmSwingAnimationEnd();
 
     @Unique

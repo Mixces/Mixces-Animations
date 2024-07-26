@@ -1,9 +1,12 @@
 package me.mixces.animations.config
 
 import cc.polyfrost.oneconfig.config.Config
+import cc.polyfrost.oneconfig.config.annotations.KeyBind
 import cc.polyfrost.oneconfig.config.annotations.Switch
+import cc.polyfrost.oneconfig.config.core.OneKeyBind
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
+import cc.polyfrost.oneconfig.libs.universal.UKeyboard
 import me.mixces.animations.MixcesAnimations
 
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json")
@@ -12,7 +15,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(
         name = "Block-Hitting Animation"
     )
-    var oldBlockHitting = true
+    var blockHitting = true
+
+    @Switch(
+        name = "Better Item Positions"
+    )
+    var itemPositions = true
 
     @Switch(
         name = "Smooth Sneaking"
@@ -44,7 +52,7 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     var oldPickup = true
 
     @Switch(
-        name = "Old Re-equip Logic"
+        name = "Full Re-equip Logic"
     )
     var oldReequip = true
 
@@ -57,6 +65,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
         name = "Remove Miss Penalty Attack Behavior"
     )
     var oldDelay = true
+
+    @KeyBind(
+        name = "Use-Action",
+        subcategory = "Macro"
+    )
+    var useAction: OneKeyBind = OneKeyBind(UKeyboard.KEY_NONE)
 
     init
     {

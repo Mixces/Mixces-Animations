@@ -3,14 +3,16 @@ package me.mixces.animations.mixin;
 import net.minecraft.entity.player.EntityPlayer;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityPlayer.class)
-public abstract class EntityPlayerMixin extends EntityMixin
+public abstract class EntityPlayerMixin extends EntityLivingBaseMixin
 {
 
+    @Shadow public abstract boolean isUsingItem();
     @Unique private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 1.62F);
 
     @ModifyVariable(

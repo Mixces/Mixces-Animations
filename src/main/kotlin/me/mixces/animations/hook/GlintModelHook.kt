@@ -25,7 +25,7 @@ object GlintModelHook
 
     object JustUV : TextureAtlasSprite("uv")
     {
-        override fun getInterpolatedU(u: Double) = (u / 16).toFloat()
+        override fun getInterpolatedU(u: Double) = (-u / 16).toFloat()
 
         override fun getInterpolatedV(v: Double) = (v / 16).toFloat()
     }

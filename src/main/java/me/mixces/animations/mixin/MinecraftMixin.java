@@ -29,7 +29,11 @@ public abstract class MinecraftMixin
     )
     private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance)
     {
-        return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
+        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return false;
+        }
+        return instance.isUsingItem();
     }
 
     @Redirect(
@@ -41,7 +45,11 @@ public abstract class MinecraftMixin
     )
     private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance)
     {
-        return (!MixcesAnimationsConfig.INSTANCE.getOldBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.getIsHittingBlock();
+        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
+        {
+            return false;
+        }
+        return instance.getIsHittingBlock();
     }
 
     @Inject(
