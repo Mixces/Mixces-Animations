@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = ModelBiped.class)
-public abstract class ModelBipedMixin
-{
+@Mixin(ModelBiped.class)
+public abstract class ModelBipedMixin {
 
-    @Shadow public ModelRenderer bipedRightArm;
+    @Shadow
+    public ModelRenderer bipedRightArm;
 
     @Inject(
             method = "setRotationAngles",
@@ -41,12 +41,9 @@ public abstract class ModelBipedMixin
                     )
             )
     )
-    private void mixcesAnimations$reAssignArmPosition(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, CallbackInfo ci)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
+    private void mixcesAnimations$reAssignArmPosition(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
             bipedRightArm.rotateAngleY = 0.0f;
         }
     }
-
 }

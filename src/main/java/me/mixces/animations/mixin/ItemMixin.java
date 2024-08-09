@@ -10,26 +10,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = Item.class)
-public abstract class ItemMixin
-{
+@Mixin(Item.class)
+public abstract class ItemMixin {
 
     @Inject(
             method = "shouldCauseReequipAnimation",
-            at = @At(
-                    value = "HEAD"
-            ),
-            cancellable = (true),
-            remap = (false)
+            at = @At("HEAD"),
+            cancellable = true,
+            remap = false
     )
-    public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
+    public void mixcesAnimations$removeCheck(ItemStack oldStack, ItemStack newStack, boolean slotChanged, CallbackInfoReturnable<Boolean> cir) {
+        if (MixcesAnimationsConfig.INSTANCE.getOldReequip() && MixcesAnimationsConfig.INSTANCE.enabled) {
             final boolean isInGui = Minecraft.getMinecraft().currentScreen instanceof GuiContainer;
-
             cir.setReturnValue(slotChanged || isInGui);
         }
     }
-
 }

@@ -1,15 +1,12 @@
 {
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
-  "plugin": "me.mixces.animations.MixcesAnimationsMixinPlugin",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
-  "injectors":
-  {
+  "injectors": {
     "maxShiftBy": 5
   },
-  "client":
-  [
+  "client": [
     "EntityLivingBaseMixin",
     "EntityMixin",
     "EntityPickupFXMixin",
@@ -18,16 +15,15 @@
     "GuiIngameMixinForge",
     "ItemMixin",
     "ItemRendererMixin",
-    "ItemStackMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
     "ModelBipedMixin",
     "PlayerControllerMPMixin",
     "RendererLivingEntityMixin",
+    "RenderFishMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "access.ItemRendererMixinInterface",
     "access.RendererLivingEntityMixinInterface"
   ],
   "verbose": true

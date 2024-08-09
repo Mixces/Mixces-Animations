@@ -11,14 +11,20 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = Minecraft.class)
-public abstract class MinecraftMixin
-{
+@Mixin(Minecraft.class)
+public abstract class MinecraftMixin {
 
-    @Shadow public GameSettings gameSettings;
-    @Shadow public GuiScreen currentScreen;
-    @Shadow public boolean inGameHasFocus;
-    @Shadow private int leftClickCounter;
+    @Shadow
+    public GameSettings gameSettings;
+
+    @Shadow
+    public GuiScreen currentScreen;
+
+    @Shadow
+    public boolean inGameHasFocus;
+
+    @Shadow
+    private int leftClickCounter;
 
     @Redirect(
             method = "sendClickBlockToController",
@@ -27,13 +33,8 @@ public abstract class MinecraftMixin
                     target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z"
             )
     )
-    private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return (false);
-        }
-        return instance.isUsingItem();
+    private boolean mixcesAnimations$disableUsingItemCheck(EntityPlayerSP instance) {
+        return (!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isUsingItem();
     }
 
     @Redirect(
@@ -43,13 +44,8 @@ public abstract class MinecraftMixin
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;getIsHittingBlock()Z"
             )
     )
-    private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return (false);
-        }
-        return instance.getIsHittingBlock();
+    private boolean mixcesAnimations$disableIsHittingCheck(PlayerControllerMP instance) {
+        return (!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.getIsHittingBlock();
     }
 
     @Inject(
@@ -60,17 +56,12 @@ public abstract class MinecraftMixin
                     ordinal = 0
             )
     )
-    private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci)
-    {
-        if (!MixcesAnimationsConfig.INSTANCE.getOldDelay() || !MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return;
-        }
-
-        if (currentScreen != (null) || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus)
-        {
-            leftClickCounter = 0;
+    private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (currentScreen != null || !gameSettings.keyBindAttack.isKeyDown() || !inGameHasFocus) {
+                /* resets leftClickCounter when we are not holding down lmb, just like in 1.7 */
+                leftClickCounter = 0;
+            }
         }
     }
-
 }

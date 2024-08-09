@@ -6,13 +6,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(
-        value = GuiIngameForge.class,
-        remap = (false)
-)
-public abstract class GuiIngameMixinForge
-{
+@Mixin(value = GuiIngameForge.class, remap = false)
+public abstract class GuiIngameMixinForge {
 
+    //todo: figure out a better way
     @ModifyVariable(
             method = "renderHealth",
             at = @At(
@@ -21,13 +18,7 @@ public abstract class GuiIngameMixinForge
             ),
             index = 5
     )
-    private boolean mixcesAnimations$disableFlashingCheck(boolean value)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getOldHearts() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return (false);
-        }
-        return value;
+    private boolean mixcesAnimations$disableFlashingCheck(boolean value) {
+        return (!MixcesAnimationsConfig.INSTANCE.getOldHearts() || !MixcesAnimationsConfig.INSTANCE.enabled) && value;
     }
-
 }

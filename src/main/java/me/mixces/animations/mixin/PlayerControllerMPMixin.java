@@ -1,5 +1,7 @@
 package me.mixces.animations.mixin;
 
+import me.mixces.animations.MixcesAnimations;
+import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.util.BlockPos;
@@ -11,16 +13,24 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = PlayerControllerMP.class)
-public abstract class PlayerControllerMPMixin
-{
+@Mixin(PlayerControllerMP.class)
+public abstract class PlayerControllerMPMixin {
 
-    @Shadow @Final private Minecraft mc;
-    @Shadow private float curBlockDamageMP;
-    @Shadow protected abstract boolean isHittingPosition(BlockPos pos);
-    @Shadow public abstract void resetBlockRemoving();
+    @Shadow
+    @Final
+    private Minecraft mc;
+
+    @Shadow
+    private float curBlockDamageMP;
+
+    @Shadow
+    protected abstract boolean isHittingPosition(BlockPos pos);
+
+    @Shadow
+    public abstract void resetBlockRemoving();
 
     @Redirect(
             method = "onPlayerDamageBlock",
@@ -29,13 +39,8 @@ public abstract class PlayerControllerMPMixin
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;isHittingPosition(Lnet/minecraft/util/BlockPos;)Z"
             )
     )
-    private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos)
-    {
-        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return instance.getIsHittingBlock() && isHittingPosition(pos);
-        }
-        return isHittingPosition(pos);
+    private boolean mixcesAnimations$includeIsHittingCheck(PlayerControllerMP instance, BlockPos pos) {
+        return ((!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled) || instance.getIsHittingBlock()) && isHittingPosition(pos);
     }
 
     @Inject(
@@ -45,24 +50,29 @@ public abstract class PlayerControllerMPMixin
                     target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;syncCurrentPlayItem()V",
                     shift = At.Shift.AFTER
             ),
-            cancellable = (true)
+            cancellable = true
     )
-    private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir)
-    {
-        if (!MixcesAnimationsConfig.INSTANCE.getBlockHitting() || !MixcesAnimationsConfig.INSTANCE.enabled)
-        {
-            return;
-        }
-
-        if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit())
-        {
-            if (curBlockDamageMP > 0.0f)
-            {
-                resetBlockRemoving();
+    private void mixcesAnimations$resetDestroyProgress(BlockPos posBlock, EnumFacing directionFacing, CallbackInfoReturnable<Boolean> cir) {
+        if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (mc.thePlayer.isUsingItem() && mc.thePlayer.isAllowEdit()) {
+                if (curBlockDamageMP > 0.0f) resetBlockRemoving();
+                cir.setReturnValue(true);
             }
-
-            cir.setReturnValue(true);
         }
     }
-    
+
+    @Inject(
+            method = "attackEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void mixcesAnimations$resetSprint(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.enabled) {
+            SprintReset.INSTANCE.setShouldStop(true);
+            Minecraft.getMinecraft().entityRenderer.getMouseOver(1.0F);
+        }
+    }
 }

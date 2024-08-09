@@ -5,18 +5,20 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(value = EntityLivingBase.class)
-public abstract class EntityLivingBaseMixin extends EntityMixin
-{
+@Mixin(EntityLivingBase.class)
+public abstract class EntityLivingBaseMixin extends EntityMixin {
 
-    @Shadow public boolean isSwingInProgress;
-    @Shadow public int swingProgressInt;
-    @Shadow protected abstract int getArmSwingAnimationEnd();
+    @Shadow
+    public boolean isSwingInProgress;
+
+    @Shadow
+    public int swingProgressInt;
+
+    @Shadow
+    protected abstract int getArmSwingAnimationEnd();
 
     @Unique
-    public int mixcesAnimations$getArmSwingAnimationEnd()
-    {
-        return getArmSwingAnimationEnd();
+    public int mixcesAnimations$getArmSwingAnimationEnd() {
+        return getArmSwingAnimationEnd(); /* we need to expose this method */
     }
-
 }
