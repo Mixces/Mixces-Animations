@@ -5,11 +5,11 @@ import net.minecraft.client.resources.model.IBakedModel
 import net.minecraft.client.resources.model.SimpleBakedModel
 import net.minecraft.util.EnumFacing
 
-object GlintModelHook {
+object GlintModel {
 
     private val glintMap = hashMapOf<HashedModel, IBakedModel>()
 
-    fun getGlint(model: IBakedModel): IBakedModel {
+    fun getModel(model: IBakedModel): IBakedModel {
         return glintMap.computeIfAbsent(HashedModel(model)) {
             SimpleBakedModel.Builder(model, CustomTextureAtlasSprite).makeBakedModel()
         }

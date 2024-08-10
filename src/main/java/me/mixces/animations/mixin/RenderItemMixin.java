@@ -1,7 +1,7 @@
 package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
-import me.mixces.animations.hook.GlintModelHook;
+import me.mixces.animations.hook.GlintModel;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.IBakedModel;
 import org.spongepowered.asm.mixin.*;
@@ -18,7 +18,7 @@ public abstract class RenderItemMixin {
             )
     )
     public IBakedModel mixcesAnimations$replaceModel(IBakedModel model) {
-        return MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled ? GlintModelHook.INSTANCE.getGlint(model) : model;
+        return MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled ? GlintModel.INSTANCE.getModel(model) : model;
     }
 
     @ModifyArg(

@@ -82,18 +82,16 @@ public abstract class LayerHeldItemMixin {
         final Item item = mixcesAnimations$itemStack.get().getItem();
         GlHelper builder = GlHelper.INSTANCE;
         float var7;
-//        GlStateManager.cullFace(1028); /* undo polypatcher cullface */
         /* original transformations from 1.7 */
         if (item instanceof ItemBlock && Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(mixcesAnimations$itemStack.get())) {
-            GlStateManager.translate(0.0F, 0.1875F, -0.3125F);
-            GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-            float l = 0.375F;
-            GlStateManager.scale(-l, -l, l);
+            var7 = 0.375F;
+            builder.translate(0.0F, 0.1875F, -0.3125F).pitch(20.0F).yaw(45.0F).scale(-var7, -var7, var7);
         } else if (item == Items.bow) {
+            GlStateManager.cullFace(1028); /* undo polypatcher cullface */
             var7 = 0.625F;
             builder.translate(0.0F, 0.125F, 0.3125F).yaw(-20.0F).scale(var7, -var7, var7).pitch(-100.0F).yaw(45.0F);
         } else if (item.isFull3D()) {
+            GlStateManager.cullFace(1028); /* undo polypatcher cullface */
             var7 = 0.625F;
             if (item.shouldRotateAroundWhenRendering()) {
                 builder.roll(180.0F).translate(0.0F, -0.125F, 0.0F);
@@ -104,7 +102,7 @@ public abstract class LayerHeldItemMixin {
             builder.translate(0.0F, 0.1875F, 0.0F).scale(var7, -var7, var7).pitch(-100.0F).yaw(45.0F);
         } else {
             var7 = 0.375F;
-//            GlStateManager.cullFace(1029); /* ignore non-tool items */
+            GlStateManager.cullFace(1029); /* ignore non-tool items */
             builder.translate(0.25F, 0.1875F, -0.1875F).scale(var7, var7, var7).roll(60.0F).pitch(-90.0F).roll(20.0F);
         }
     }
