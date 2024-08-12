@@ -1,7 +1,5 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.MixcesAnimations;
-import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.MovementInput;
 import me.mixces.animations.config.MixcesAnimationsConfig;
@@ -17,9 +15,6 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin {
 
     @Shadow
     public MovementInput movementInput;
-
-    @Shadow
-    public abstract void setSprinting(boolean sprinting);
 
     @Inject(
             method = "onLivingUpdate",
@@ -54,21 +49,6 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin {
         if (!isSwingInProgress || swingProgressInt >= mixcesAnimations$getArmSwingAnimationEnd() / 2 || swingProgressInt < 0) {
             swingProgressInt = -1;
             isSwingInProgress = true;
-        }
-    }
-
-    @Inject(
-            method = "onLivingUpdate",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSprinting()Z",
-                    ordinal = 2
-            )
-    )
-    private void mixcesAnimations$stopSprinting(CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.enabled && SprintReset.INSTANCE.getShouldStop()) {
-            SprintReset.INSTANCE.setShouldStop(false);
-            setSprinting(false);
         }
     }
 }

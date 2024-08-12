@@ -107,8 +107,10 @@ public abstract class ItemRendererMixin {
         GlHelper builder = GlHelper.INSTANCE;
         /* original transformations from 1.7 */
         builder.translate(0.0F, -0.3F, 0.0F).scale(1.5F, 1.5F, 1.5F).yaw(50.0F).roll(335.0F).translate(-0.9375F, -0.0625F, 0.0F);
-        /* idk */
-        builder.yaw(180.0F).translate(-0.5F, 0.5F, 0.03F);
+        /* we need to adapt the 1.7 transformations to fit in 1.8 */
+        float width = 0.03125F; /* this is half of 1/16, a common fraction present in this game */
+        float offset = 0.5F; /* undo the offset perpetrated by RenderItem#renderItem */
+        builder.yaw(180.0F).translate(-offset, offset, width);
     }
 
     @Inject(
