@@ -1,5 +1,6 @@
 package me.mixces.animations.mixin;
 
+import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.util.BlockPos;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerControllerMP.class)
@@ -56,5 +58,17 @@ public abstract class PlayerControllerMPMixin {
                 cir.setReturnValue(true);
             }
         }
+    }
+
+    @Inject(
+            method = "attackEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void mixcesAnimations$resetSprint(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getSprintReset() && MixcesAnimationsConfig.INSTANCE.enabled) SprintReset.setShouldStop(true);
     }
 }

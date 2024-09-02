@@ -141,9 +141,7 @@ public abstract class ItemRendererMixin {
 
     @Inject(
             method = "renderItemInFirstPerson",
-            at = @At(
-                    value = "TAIL"
-            )
+            at = @At(value = "TAIL")
     )
     private void mixcesAnimations$clearThreadLocalF1(CallbackInfo ci) {
         /* we need to clear the threadlocal */

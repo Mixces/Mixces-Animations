@@ -32,11 +32,23 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Better Item Pickup")
     var oldPickup = true
 
+    @Switch(name = "Fast Items")
+    var fastItems = true
+
     @Switch(name = "Full Re-equip Logic")
     var oldReequip = true
 
-    @Switch(name = "Remove Miss Penalty Attack Behavior")
+    @Switch(name = "Remove Miss Penalty Attack Behavior", subcategory = "Advantage")
     var oldDelay = true
+
+    @Switch(name = "Auto Jump Reset", subcategory = "Advantage")
+    var jumpReset = true
+
+    @Switch(name = "Auto Sprint Reset", subcategory = "Advantage")
+    var sprintReset = true
+
+    @Switch(name = "Aim Assist", subcategory = "Advantage")
+    var aimAssist = true
 
     init {
         initialize()
