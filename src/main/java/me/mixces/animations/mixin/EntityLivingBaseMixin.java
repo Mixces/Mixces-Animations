@@ -1,5 +1,6 @@
 package me.mixces.animations.mixin;
 
+import cc.polyfrost.oneconfig.libs.universal.UChat;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.hook.SprintReset;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +24,7 @@ public abstract class EntityLivingBaseMixin extends EntityMixin {
     protected abstract int getArmSwingAnimationEnd();
 
     @Shadow
-    public abstract void setJumping(boolean jumping);
+    private int jumpTicks;
 
     @Unique
     public int mixcesAnimations$getArmSwingAnimationEnd() {
@@ -40,9 +41,16 @@ public abstract class EntityLivingBaseMixin extends EntityMixin {
             )
     )
     private void mixcesAnimations$doJump(CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled && SprintReset.getShouldJump()) {
-            setJumping(true);
-            SprintReset.setShouldJump(false);
+        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled) {
+//            jumpTicks = 0;
         }
+    }
+
+    @Inject(
+            method = "jump",
+            at = @At(value = "HEAD")
+    )
+    private void mixcesAnimations$debugJump(CallbackInfo ci) {
+        UChat.chat("Jumped");
     }
 }

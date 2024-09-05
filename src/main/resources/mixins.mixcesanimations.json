@@ -20,6 +20,7 @@
     "LayerHeldItemMixin",
     "MinecraftMixin",
     "ModelBipedMixin",
+    "MovementInputFromOptionsMixin",
     "NetHandlerPlayClientMixin",
     "PlayerControllerMPMixin",
     "RenderEntityItemMixin",
