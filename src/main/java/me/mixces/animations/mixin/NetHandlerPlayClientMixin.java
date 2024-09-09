@@ -1,6 +1,5 @@
 package me.mixces.animations.mixin;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.Minecraft;
@@ -34,13 +33,14 @@ public class NetHandlerPlayClientMixin {
             )
     )
     private void mixcesAnimations$prepareJump(S12PacketEntityVelocity packetIn, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled && packetIn.getEntityID() == Minecraft.getMinecraft().thePlayer.getEntityId()) {
-//            int randomDelay = mixcesAnimations$random.nextInt(40); /* 2 ticks */
-//            boolean randomChance = mixcesAnimations$random.nextFloat() < 50.0f / 100.0f; /* 25% chance */
-//            if (!randomChance) return;
-//            mixcesAnimations$scheduler.schedule(this::mixcesAnimations$setJump, randomDelay, TimeUnit.MILLISECONDS);
-
-            mixcesAnimations$setJump();
+        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled &&
+                packetIn.getEntityID() == Minecraft.getMinecraft().thePlayer.getEntityId()) {
+            if (Minecraft.getMinecraft().pointedEntity == null) return; /* avoid kiting */
+            int randomDelay = mixcesAnimations$random.nextInt(40); /* 2 ticks */
+            boolean randomChance = mixcesAnimations$random.nextFloat() < 75.0f / 100.0f; /* 25% chance */
+            if (!randomChance) return;
+            mixcesAnimations$scheduler.schedule(this::mixcesAnimations$setJump, randomDelay, TimeUnit.MILLISECONDS);
+//            mixcesAnimations$setJump();
         }
     }
 

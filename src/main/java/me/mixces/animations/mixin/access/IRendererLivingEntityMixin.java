@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(RendererLivingEntity.class)
-public interface RendererLivingEntityMixinInterface {
+public interface IRendererLivingEntityMixin {
 
     @Invoker
     boolean invokeSetDoRenderBrightness(EntityLivingBase entitylivingbaseIn, float partialTicks);

@@ -12,8 +12,9 @@
     "EntityPickupFXMixin",
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
-    "EntityRendererMixin",
+//    "EntityRendererMixin",
     "GuiIngameMixinForge",
+    "GuiOverlayDebugMixin",
     "ItemMixin",
     "ItemRendererMixin",
     "LayerArmorBaseMixin",
@@ -28,7 +29,7 @@
     "RenderFishMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "access.RendererLivingEntityMixinInterface"
+    "access.IRendererLivingEntityMixin"
   ],
   "verbose": true
 }

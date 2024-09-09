@@ -16,6 +16,9 @@ public abstract class EntityMixin {
     @Shadow
     public double posY;
 
+    @Shadow
+    public int hurtResistantTime;
+
     @Unique
     public float mixcesAnimations$ySize;
 
