@@ -38,6 +38,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Full Re-equip Logic")
     var oldReequip = true
 
+    @Switch(name = "No Hurt Camera", subcategory = "Advantage")
+    var noHurtCam = true
+
+    @Switch(name = "Remove Miss Penalty Attack Behavior", subcategory = "Advantage")
+    var oldDelay = true
+
     @Switch(name = "Auto Jump Reset", subcategory = "Advantage")
     var jumpReset = true
 
@@ -47,11 +53,14 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Auto Spacing", subcategory = "Advantage")
     var autoSpace = true
 
-    @Switch(name = "Update Mouse Over Frequently", subcategory = "Advantage")
-    var updateMouse = true
-
     @Switch(name = "Disable Invulnerability Frame in Multiplayer", subcategory = "Advantage")
     var disableInvulnerable = true
+
+    @Switch(name = "Null Movement", subcategory = "Advantage")
+    var nullMovement = true
+
+    @Switch(name = "Instant Movement", subcategory = "Advantage")
+    var instantMovement = true
 
     @Switch(name = "Show Ping in Debug Menu", subcategory = "GUI")
     var showPing = true

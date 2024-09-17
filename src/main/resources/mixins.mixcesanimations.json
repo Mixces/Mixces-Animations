@@ -9,10 +9,11 @@
   "client": [
     "EntityLivingBaseMixin",
     "EntityMixin",
+    "EntityOtherPlayerMPMixin",
     "EntityPickupFXMixin",
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
-//    "EntityRendererMixin",
+    "EntityRendererMixin",
     "GuiIngameMixinForge",
     "GuiOverlayDebugMixin",
     "ItemMixin",
@@ -29,6 +30,7 @@
     "RenderFishMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
+    "access.IKeyBindingMixin",
     "access.IRendererLivingEntityMixin"
   ],
   "verbose": true

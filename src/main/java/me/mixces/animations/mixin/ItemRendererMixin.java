@@ -34,6 +34,10 @@ public abstract class ItemRendererMixin {
     @Final
     private RenderItem itemRenderer;
 
+    @Shadow protected abstract void doBlockTransformations();
+
+    @Shadow protected abstract void doItemUsedTransformations(float swingProgress);
+
     @Unique
     private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 0.0F);
 
@@ -157,5 +161,33 @@ public abstract class ItemRendererMixin {
     )
     public boolean mixcesAnimations$addEqualityCheck(ItemStack instance, ItemStack p_179549_1_) {
         return ((!MixcesAnimationsConfig.INSTANCE.getOldReequip() || !MixcesAnimationsConfig.INSTANCE.enabled) || (equippedItemSlot == mc.thePlayer.inventory.currentItem)) && instance.isItemEqual(p_179549_1_);
+    }
+
+    @Redirect(
+            method = "renderItemInFirstPerson",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/ItemRenderer;doItemUsedTransformations(F)V"
+            )
+    )
+    private void mixcesAnimations$autoBlock(ItemRenderer instance, float swingProgress) {
+//        if (!mc.gameSettings.keyBindAttack.isKeyDown() || !mc.gameSettings.keyBindUseItem.isKeyDown()) {
+//            doItemUsedTransformations(swingProgress);
+//        }
+    }
+
+    @Inject(
+            method = "renderItemInFirstPerson",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/ItemRenderer;transformFirstPersonItem(FF)V",
+                    ordinal = 4,
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void mixcesAnimations$autoBlock2(float partialTicks, CallbackInfo ci) {
+//        if (mc.gameSettings.keyBindAttack.isKeyDown() && mc.gameSettings.keyBindUseItem.isKeyDown()) {
+            this.doBlockTransformations();
+//        }
     }
 }

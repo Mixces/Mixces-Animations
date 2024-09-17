@@ -29,6 +29,7 @@ public class GuiOverlayDebugMixin {
     private void mixcesAnimations$addPingElement(CallbackInfoReturnable<List<String>> cir) {
         List<String> list = cir.getReturnValue();
         if (MixcesAnimationsConfig.INSTANCE.getShowPing() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (mc.isSingleplayer()) return;
             long ping = mc.getCurrentServerData().pingToServer;
             if (ping >= 0) list.add(String.format("Ping: %d ms", ping));
             else list.add("No connection :(");

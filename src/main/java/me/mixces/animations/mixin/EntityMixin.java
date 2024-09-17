@@ -25,6 +25,12 @@ public abstract class EntityMixin {
     @Shadow
     public abstract boolean isSneaking();
 
+    @Shadow
+    public double motionX;
+
+    @Shadow
+    public double motionZ;
+
     @Inject(
             method = "moveEntity",
             at = @At(

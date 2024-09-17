@@ -3,6 +3,7 @@ package me.mixces.animations.mixin;
 import cc.polyfrost.oneconfig.libs.universal.UChat;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +25,12 @@ public abstract class EntityLivingBaseMixin extends EntityMixin {
 
     @Shadow
     protected abstract int getArmSwingAnimationEnd();
+
+    @Shadow
+    public float moveForward;
+
+    @Shadow
+    public float moveStrafing;
 
     @Unique
     public int mixcesAnimations$getArmSwingAnimationEnd() {
@@ -51,6 +58,27 @@ public abstract class EntityLivingBaseMixin extends EntityMixin {
     private void mixcesAnimations$debugJump(CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled) {
             UChat.chat("Jumped");
+        }
+    }
+
+    @Inject(
+            method = "moveEntityWithHeading",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/EntityLivingBase;moveEntity(DDD)V"
+            )
+    )
+    private void mixcesAnimations$instantStop(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getInstantMovement() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            EntityLivingBase entity = ((EntityLivingBase) (Object) this);
+            if (entity.getEntityId() == Minecraft.getMinecraft().thePlayer.getEntityId()) {
+                EntityPlayerSP player = ((EntityPlayerSP) entity);
+                if (player.hurtTime > 0 || !player.onGround || player.movementInput.jump) return;
+                if (moveForward == 0 && moveStrafing == 0 && (motionX != 0 || motionZ != 0)) {
+                    motionX = 0.0;
+                    motionZ = 0.0;
+                }
+            }
         }
     }
 }

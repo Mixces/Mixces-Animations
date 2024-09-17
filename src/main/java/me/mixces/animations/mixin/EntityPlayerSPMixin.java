@@ -1,18 +1,18 @@
 package me.mixces.animations.mixin;
 
+import me.mixces.animations.api.ISwing;
 import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.MovementInput;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayerSP.class)
-public abstract class EntityPlayerSPMixin extends EntityPlayerMixin {
+public abstract class EntityPlayerSPMixin extends EntityPlayerMixin implements ISwing {
 
     @Shadow
     public MovementInput movementInput;
@@ -48,14 +48,6 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin {
         }
     }
 
-    @Unique
-    private void mixcesAnimations$swingItem() { /* packet-less swing method */
-        if (!isSwingInProgress || swingProgressInt >= mixcesAnimations$getArmSwingAnimationEnd() / 2 || swingProgressInt < 0) {
-            swingProgressInt = -1;
-            isSwingInProgress = true;
-        }
-    }
-
     @Inject(
             method = "onLivingUpdate",
             at = @At(
@@ -68,6 +60,14 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin {
         if (MixcesAnimationsConfig.INSTANCE.getSprintReset() && MixcesAnimationsConfig.INSTANCE.enabled && SprintReset.getShouldStop()) {
             setSprinting(false);
             SprintReset.setShouldStop(false);
+        }
+    }
+
+    @Override
+    public void mixcesAnimations$swingItem() {
+        if (!isSwingInProgress || swingProgressInt >= mixcesAnimations$getArmSwingAnimationEnd() / 2 || swingProgressInt < 0) {
+            swingProgressInt = -1;
+            isSwingInProgress = true;
         }
     }
 }
