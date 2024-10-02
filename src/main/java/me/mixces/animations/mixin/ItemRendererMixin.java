@@ -10,14 +10,11 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.*;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = ItemRenderer.class)
+@Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
     @Shadow
@@ -34,9 +31,14 @@ public abstract class ItemRendererMixin {
     @Final
     private RenderItem itemRenderer;
 
-    @Shadow protected abstract void doBlockTransformations();
+    @Shadow
+    protected abstract void doBlockTransformations();
 
-    @Shadow protected abstract void doItemUsedTransformations(float swingProgress);
+    @Shadow
+    protected abstract void doItemUsedTransformations(float swingProgress);
+
+    @Unique
+    private boolean mixcesAnimations$isSwingInProgress;
 
     @Unique
     private static final ThreadLocal<Float> mixcesAnimations$f1 = ThreadLocal.withInitial(() -> 0.0F);
@@ -163,6 +165,20 @@ public abstract class ItemRendererMixin {
         return ((!MixcesAnimationsConfig.INSTANCE.getOldReequip() || !MixcesAnimationsConfig.INSTANCE.enabled) || (equippedItemSlot == mc.thePlayer.inventory.currentItem)) && instance.isItemEqual(p_179549_1_);
     }
 
+    @Inject(
+            method = "renderItemInFirstPerson",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/ItemRenderer;doBlockTransformations()V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void mixcesAnimations$autoBlock(float partialTicks, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getAutoBlock() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (mc.thePlayer.swingProgress > 0) mixcesAnimations$isSwingInProgress = true;
+        }
+    }
+
     @Redirect(
             method = "renderItemInFirstPerson",
             at = @At(
@@ -170,10 +186,10 @@ public abstract class ItemRendererMixin {
                     target = "Lnet/minecraft/client/renderer/ItemRenderer;doItemUsedTransformations(F)V"
             )
     )
-    private void mixcesAnimations$autoBlock(ItemRenderer instance, float swingProgress) {
-//        if (!mc.gameSettings.keyBindAttack.isKeyDown() || !mc.gameSettings.keyBindUseItem.isKeyDown()) {
-//            doItemUsedTransformations(swingProgress);
-//        }
+    private void mixcesAnimations$autoBlock2(ItemRenderer instance, float swingProgress) {
+        if (!MixcesAnimationsConfig.INSTANCE.getAutoBlock() || !MixcesAnimationsConfig.INSTANCE.enabled || itemToRender.getItemUseAction() != EnumAction.BLOCK || !mixcesAnimations$isSwingInProgress) {
+            doItemUsedTransformations(swingProgress);
+        }
     }
 
     @Inject(
@@ -185,9 +201,16 @@ public abstract class ItemRendererMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void mixcesAnimations$autoBlock2(float partialTicks, CallbackInfo ci) {
-//        if (mc.gameSettings.keyBindAttack.isKeyDown() && mc.gameSettings.keyBindUseItem.isKeyDown()) {
-            this.doBlockTransformations();
-//        }
+    private void mixcesAnimations$autoBlock3(float partialTicks, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getAutoBlock() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (itemToRender.getItemUseAction() == EnumAction.BLOCK && mixcesAnimations$isSwingInProgress) {
+                doBlockTransformations();
+
+                /* only allow block transformation to play during 1 swing */
+                if (mc.thePlayer.swingProgress == 0 /* start */ || mc.thePlayer.swingProgressInt == 0 /* end */) {
+                    mixcesAnimations$isSwingInProgress = false;
+                }
+            }
+        }
     }
 }

@@ -62,8 +62,23 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Instant Movement", subcategory = "Advantage")
     var instantMovement = true
 
+    @Switch(name = "Auto Clicker", subcategory = "Advantage")
+    var autoClicker = true
+
     @Switch(name = "Show Ping in Debug Menu", subcategory = "GUI")
     var showPing = true
+
+    @Switch(name = "Fake Autoblock", subcategory = "Random")
+    var autoBlock = true
+
+    @Switch(name = "Fix Reach", subcategory = "Random")
+    var fixReach = true
+
+    @Switch(name = "Hit Select", subcategory = "Random")
+    var hitSelect = true
+
+    @Switch(name = "Fake Swing", subcategory = "Random")
+    var fakeSwing = true
 
     init {
         initialize()

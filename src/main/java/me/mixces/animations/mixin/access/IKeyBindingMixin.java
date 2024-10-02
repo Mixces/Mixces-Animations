@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IKeyBindingMixin {
 
     @Accessor
-    int getPressTime();
+    void setPressTime(int time);
 }
