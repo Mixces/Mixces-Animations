@@ -43,7 +43,7 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin implements I
         if (MixcesAnimationsConfig.INSTANCE.getBlockHitting() && MixcesAnimationsConfig.INSTANCE.enabled) {
             if (isUsingItem()) {
                 ci.cancel();
-                mixcesAnimations$swingItem();
+                fakeSwingItem();
             }
         }
     }
@@ -63,8 +63,9 @@ public abstract class EntityPlayerSPMixin extends EntityPlayerMixin implements I
         }
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Override
-    public void mixcesAnimations$swingItem() {
+    public void fakeSwingItem() {
         if (!isSwingInProgress || swingProgressInt >= mixcesAnimations$getArmSwingAnimationEnd() / 2 || swingProgressInt < 0) {
             swingProgressInt = -1;
             isSwingInProgress = true;

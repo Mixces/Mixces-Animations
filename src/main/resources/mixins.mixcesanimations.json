@@ -30,8 +30,13 @@
     "RenderFishMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
+    "access.IEntityPlayerSPMixin",
     "access.IKeyBindingMixin",
     "access.IRendererLivingEntityMixin"
   ],
-  "verbose": true
+  "verbose": true,
+  "mixins": [
+    "krypton.PacketBufferMixin",
+    "krypton.PingResponseHandlerMixin"
+  ]
 }

@@ -6,11 +6,18 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.util.MovingObjectPosition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Random;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
@@ -26,6 +33,12 @@ public abstract class MinecraftMixin {
 
     @Shadow
     public WorldClient theWorld;
+
+    @Shadow
+    public GameSettings gameSettings;
+
+    @Shadow
+    protected abstract void clickMouse();
 
     @Redirect(
             method = "sendClickBlockToController",
@@ -51,17 +64,82 @@ public abstract class MinecraftMixin {
 
     @Inject(
             method = "clickMouse",
-            at = @At("HEAD")
+            at = @At("HEAD"),
+            cancellable = true
     )
     private void mixcesAnimations$addLeftClickCheck(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getHitSelect() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (objectMouseOver == null || objectMouseOver.entityHit == null) {
+                if (MixcesAnimationsConfig.INSTANCE.getFakeSwing()) {
+                    ((ISwing) thePlayer).fakeSwingItem();
+                }
+                ci.cancel();
+            }
+            if (objectMouseOver != null && objectMouseOver.entityHit != null &&
+                    objectMouseOver.entityHit instanceof EntityLivingBase && ((EntityLivingBase) objectMouseOver.entityHit).hurtTime > 0) {
+                if (MixcesAnimationsConfig.INSTANCE.getFakeSwing()) {
+                    ((ISwing) thePlayer).fakeSwingItem();
+                }
+                ci.cancel();
+            }
+        }
+
         if (MixcesAnimationsConfig.INSTANCE.getOldDelay() && MixcesAnimationsConfig.INSTANCE.enabled) {
             if (objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && theWorld.isAirBlock(objectMouseOver.getBlockPos())) {
                 /* fake swing */
-                if (leftClickCounter > 0) ((ISwing) thePlayer).mixcesAnimations$swingItem();
+                if (leftClickCounter > 0) ((ISwing) thePlayer).fakeSwingItem();
             } else {
                 /* reset leftClickCounter if not clicking at an air block*/
                 leftClickCounter = 0;
             }
         }
+    }
+
+    @Unique
+    private Random mixcesAnimations$random = new Random();
+
+    @Unique
+    private long mixcesAnimations$lastClickTime = 0;
+
+    @Inject(
+            method = "runTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/entity/EntityPlayerSP;isUsingItem()Z",
+                    ordinal = 0
+            )
+    )
+    private void mixcesAnimations$autoClicker(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getAutoClicker() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (thePlayer.isUsingItem()) return;
+            if (objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                while (gameSettings.keyBindAttack.isPressed()) clickMouse();
+            } else {
+                if (gameSettings.keyBindAttack.isKeyDown() && mixcesAnimations$shouldClick()) {
+                    clickMouse();
+                }
+            }
+        }
+    }
+
+    @Redirect(
+            method = "runTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/settings/KeyBinding;isPressed()Z",
+                    ordinal = 10
+            )
+    )
+    private boolean mixcesAnimations$disableClickMouse(KeyBinding instance) {
+        return (!MixcesAnimationsConfig.INSTANCE.getAutoClicker() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isPressed();
+    }
+
+    @Unique
+    private boolean mixcesAnimations$shouldClick() {
+        if (System.currentTimeMillis() - mixcesAnimations$lastClickTime >= mixcesAnimations$random.nextInt(83)) {
+            mixcesAnimations$lastClickTime = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 }
