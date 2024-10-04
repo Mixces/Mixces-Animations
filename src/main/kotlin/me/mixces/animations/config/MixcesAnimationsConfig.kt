@@ -65,6 +65,12 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Auto Clicker", subcategory = "Advantage")
     var autoClicker = true
 
+    @Switch(name = "Auto Blocker", subcategory = "Advantage")
+    var autoBlocker = true
+
+    @Switch(name = "Aim Assist", subcategory = "Advantage")
+    var aimAssist = true
+
     @Switch(name = "Show Ping in Debug Menu", subcategory = "GUI")
     var showPing = true
 

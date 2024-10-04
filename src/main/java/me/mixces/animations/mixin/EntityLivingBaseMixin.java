@@ -1,6 +1,5 @@
 package me.mixces.animations.mixin;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -48,16 +47,6 @@ public abstract class EntityLivingBaseMixin extends EntityMixin {
                 hurtResistantTime = 0;
                 cir.setReturnValue(false);
             }
-        }
-    }
-
-    @Inject(
-            method = "jump",
-            at = @At(value = "HEAD")
-    )
-    private void mixcesAnimations$debugJump(CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            UChat.chat("Jumped");
         }
     }
 

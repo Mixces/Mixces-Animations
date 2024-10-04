@@ -4,7 +4,6 @@ import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.hook.SprintReset;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,15 +12,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Mixin(NetHandlerPlayClient.class)
-public abstract class NetHandlerPlayClientMixin implements INetHandlerPlayClient {
-
-    @Unique
-    private ScheduledExecutorService mixcesAnimations$scheduler = Executors.newScheduledThreadPool(1);
+public abstract class NetHandlerPlayClientMixin {
 
     @Unique
     private Random mixcesAnimations$random = new Random();
@@ -34,18 +27,14 @@ public abstract class NetHandlerPlayClientMixin implements INetHandlerPlayClient
             )
     )
     private void mixcesAnimations$prepareJump(S12PacketEntityVelocity packetIn, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled &&
-                packetIn.getEntityID() == Minecraft.getMinecraft().thePlayer.getEntityId()) {
+        if (MixcesAnimationsConfig.INSTANCE.getJumpReset() && MixcesAnimationsConfig.INSTANCE.enabled) {
             if (Minecraft.getMinecraft().pointedEntity == null) return; /* avoid kiting */
-            int randomDelay = mixcesAnimations$random.nextInt(60); /* 3 ticks */
-            boolean randomChance = mixcesAnimations$random.nextFloat() < 75.0f / 100.0f; /* 25% chance */
-            if (!randomChance) return;
-            mixcesAnimations$scheduler.schedule(this::mixcesAnimations$setJump, randomDelay, TimeUnit.MILLISECONDS);
+            if (packetIn.getEntityID() == Minecraft.getMinecraft().thePlayer.getEntityId()) {
+                boolean randomChance = mixcesAnimations$random.nextFloat() < 50.0f / 100.0f; /* 50% chance */
+                if (!SprintReset.getShouldJump() && randomChance) {
+                    SprintReset.setShouldJump(true);
+                }
+            }
         }
-    }
-
-    @Unique
-    private void mixcesAnimations$setJump() {
-        SprintReset.setShouldJump(true);
     }
 }

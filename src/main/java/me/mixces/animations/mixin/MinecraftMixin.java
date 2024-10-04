@@ -10,6 +10,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.MovingObjectPosition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,6 +40,8 @@ public abstract class MinecraftMixin {
 
     @Shadow
     protected abstract void clickMouse();
+
+    @Shadow protected abstract void rightClickMouse();
 
     @Redirect(
             method = "sendClickBlockToController",
@@ -132,6 +135,20 @@ public abstract class MinecraftMixin {
     )
     private boolean mixcesAnimations$disableClickMouse(KeyBinding instance) {
         return (!MixcesAnimationsConfig.INSTANCE.getAutoClicker() || !MixcesAnimationsConfig.INSTANCE.enabled) && instance.isPressed();
+    }
+
+    @Inject(
+            method = "clickMouse",
+            at = @At(value = "TAIL")
+    )
+    private void mixcesAnimations$autoBlocker(CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getAutoBlocker() && MixcesAnimationsConfig.INSTANCE.enabled) {
+            if (objectMouseOver != null && objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+                if (thePlayer.getHeldItem() != null && thePlayer.getHeldItem().getItem() != null && thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                    rightClickMouse();
+                }
+            }
+        }
     }
 
     @Unique
