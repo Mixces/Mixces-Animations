@@ -16,20 +16,11 @@ public abstract class EntityMixin {
     @Shadow
     public double posY;
 
-    @Shadow
-    public int hurtResistantTime;
-
     @Unique
     public float mixcesAnimations$ySize;
 
     @Shadow
     public abstract boolean isSneaking();
-
-    @Shadow
-    public double motionX;
-
-    @Shadow
-    public double motionZ;
 
     @Inject(
             method = "moveEntity",

@@ -31,12 +31,6 @@ public abstract class ItemRendererMixin {
     @Final
     private RenderItem itemRenderer;
 
-    @Shadow
-    protected abstract void doBlockTransformations();
-
-    @Shadow
-    protected abstract void doItemUsedTransformations(float swingProgress);
-
     @Unique
     private boolean mixcesAnimations$isSwingInProgress;
 
@@ -163,54 +157,5 @@ public abstract class ItemRendererMixin {
     )
     public boolean mixcesAnimations$addEqualityCheck(ItemStack instance, ItemStack p_179549_1_) {
         return ((!MixcesAnimationsConfig.INSTANCE.getOldReequip() || !MixcesAnimationsConfig.INSTANCE.enabled) || (equippedItemSlot == mc.thePlayer.inventory.currentItem)) && instance.isItemEqual(p_179549_1_);
-    }
-
-    @Inject(
-            method = "renderItemInFirstPerson",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/ItemRenderer;doBlockTransformations()V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void mixcesAnimations$autoBlock(float partialTicks, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getAutoBlock() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            if (mc.thePlayer.swingProgress > 0) mixcesAnimations$isSwingInProgress = true;
-        }
-    }
-
-    @Redirect(
-            method = "renderItemInFirstPerson",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/ItemRenderer;doItemUsedTransformations(F)V"
-            )
-    )
-    private void mixcesAnimations$autoBlock2(ItemRenderer instance, float swingProgress) {
-        if (!MixcesAnimationsConfig.INSTANCE.getAutoBlock() || !MixcesAnimationsConfig.INSTANCE.enabled || itemToRender.getItemUseAction() != EnumAction.BLOCK || !mixcesAnimations$isSwingInProgress) {
-            doItemUsedTransformations(swingProgress);
-        }
-    }
-
-    @Inject(
-            method = "renderItemInFirstPerson",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/ItemRenderer;transformFirstPersonItem(FF)V",
-                    ordinal = 4,
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void mixcesAnimations$autoBlock3(float partialTicks, CallbackInfo ci) {
-        if (MixcesAnimationsConfig.INSTANCE.getAutoBlock() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            if (itemToRender.getItemUseAction() == EnumAction.BLOCK && mixcesAnimations$isSwingInProgress) {
-                doBlockTransformations();
-
-                /* only allow block transformation to play during 1 swing */
-                if (mc.thePlayer.swingProgress == 0 /* start */ || mc.thePlayer.swingProgressInt == 0 /* end */) {
-                    mixcesAnimations$isSwingInProgress = false;
-                }
-            }
-        }
     }
 }

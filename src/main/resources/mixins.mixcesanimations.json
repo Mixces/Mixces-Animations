@@ -9,34 +9,23 @@
   "client": [
     "EntityLivingBaseMixin",
     "EntityMixin",
-    "EntityOtherPlayerMPMixin",
     "EntityPickupFXMixin",
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
-    "EntityRendererMixin",
     "GuiIngameMixinForge",
-    "GuiOverlayDebugMixin",
     "ItemMixin",
     "ItemRendererMixin",
     "LayerArmorBaseMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
     "ModelBipedMixin",
-    "MovementInputFromOptionsMixin",
-    "NetHandlerPlayClientMixin",
     "PlayerControllerMPMixin",
     "RenderEntityItemMixin",
     "RendererLivingEntityMixin",
     "RenderFishMixin",
     "RenderItemMixin",
     "RenderSnowballMixin",
-    "access.IEntityPlayerSPMixin",
-    "access.IKeyBindingMixin",
     "access.IRendererLivingEntityMixin"
   ],
-  "verbose": true,
-  "mixins": [
-    "krypton.PacketBufferMixin",
-    "krypton.PingResponseHandlerMixin"
-  ]
+  "verbose": true
 }
