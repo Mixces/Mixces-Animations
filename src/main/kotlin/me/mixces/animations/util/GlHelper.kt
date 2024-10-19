@@ -5,8 +5,6 @@ import net.minecraft.client.renderer.GlStateManager
 /**
  * I wrote this for fun :) It's impractical which is why I love it.
  */
-
-//todo: replace with original
 object GlHelper {
     fun pitch(pitch: Float): GlHelper {
         GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f)

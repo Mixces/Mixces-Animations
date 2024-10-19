@@ -4,6 +4,7 @@ import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
+import cc.polyfrost.oneconfig.utils.dsl.mc
 import me.mixces.animations.MixcesAnimations
 
 object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "/mixcesanimations.svg"), MixcesAnimations.MODID + ".json") {
@@ -26,14 +27,23 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
     @Switch(name = "Remove Heart Flashing")
     var oldHearts = true
 
-    @Switch(name = "Armor Hurt Color Tint")
+    @Switch(name = "Armor Damage Tint")
     var oldArmor = true
+
+    @Switch(name = "Deep Red Damage Tint")
+    var damageTint = true
+
+    @Switch(name = "Bugged Arrow Layer Lighting")
+    var arrowLighting = true
 
     @Switch(name = "Better Item Pickup")
     var oldPickup = true
 
     @Switch(name = "Fast Items")
     var fastItems = true
+
+    @Switch(name = "Alternative Potion Rendering")
+    var oldPotion = true
 
     @Switch(name = "Full Re-equip Logic")
     var oldReequip = true
@@ -46,5 +56,9 @@ object MixcesAnimationsConfig : Config(Mod(MixcesAnimations.NAME, ModType.PVP, "
 
     init {
         initialize()
+
+        addListener("fastGrass") {
+            mc.renderGlobal.loadRenderers()
+        }
     }
 }

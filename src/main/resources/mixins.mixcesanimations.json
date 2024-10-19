@@ -1,6 +1,7 @@
 {
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
+  "plugin": "me.mixces.animations.MixcesAnimationsMixinPlugin",
   "package": "me.mixces.animations.mixin",
   "refmap": "mixins.${id}.refmap.json",
   "injectors": {
@@ -16,6 +17,7 @@
     "ItemMixin",
     "ItemRendererMixin",
     "LayerArmorBaseMixin",
+    "LayerArrowMixin",
     "LayerHeldItemMixin",
     "MinecraftMixin",
     "ModelBipedMixin",

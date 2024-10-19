@@ -1,6 +1,7 @@
 package me.mixces.animations.mixin;
 
-import me.mixces.animations.mixin.access.IRendererLivingEntityMixin;
+import me.mixces.animations.api.IDamageTint;
+import me.mixces.animations.hook.DamageTint;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
@@ -45,9 +46,14 @@ public abstract class LayerArmorBaseMixin {
     )
     private void mixcesAnimations$addDamageBrightness(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getOldArmor() && MixcesAnimationsConfig.INSTANCE.enabled) {
-            if (((IRendererLivingEntityMixin) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks)) {
+//            if (((IRendererLivingEntityMixin) renderer).invokeSetDoRenderBrightness(entitylivingbaseIn, partialTicks)) {
+//                mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
+//                ((IRendererLivingEntityMixin) renderer).invokeUnsetBrightness();
+//            }
+
+            if (((IDamageTint) renderer).setupDamageTint(entitylivingbaseIn, partialTicks)) {
                 mixcesAnimations$t.get().render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, scale);
-                ((IRendererLivingEntityMixin) renderer).invokeUnsetBrightness();
+                DamageTint.unsetDamageTint();
             }
         }
     }

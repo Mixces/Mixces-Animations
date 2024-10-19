@@ -103,7 +103,7 @@ public abstract class ItemRendererMixin {
     )
     private void mixcesAnimations$applyHeldItemTransforms(EntityLivingBase entityIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getPositions() || !MixcesAnimationsConfig.INSTANCE.enabled) return;
-        if (itemRenderer.shouldRenderItemIn3D(heldStack) || ItemBlacklist.INSTANCE.isPresent(heldStack)) return;
+        if (itemRenderer.shouldRenderItemIn3D(heldStack) || ItemBlacklist.isPresent(heldStack)) return;
         GlHelper builder = GlHelper.INSTANCE;
         /* original transformations from 1.7 */
         builder.translate(0.0F, -0.3F, 0.0F).scale(1.5F, 1.5F, 1.5F).yaw(50.0F).roll(335.0F).translate(-0.9375F, -0.0625F, 0.0F);
@@ -136,7 +136,7 @@ public abstract class ItemRendererMixin {
             index = 2
     )
     private ItemCameraTransforms.TransformType mixcesAnimations$changeTransformType(ItemCameraTransforms.TransformType transform) {
-        return MixcesAnimationsConfig.INSTANCE.getPositions() && MixcesAnimationsConfig.INSTANCE.enabled && !ItemBlacklist.INSTANCE.isPresent(itemToRender) ? ItemCameraTransforms.TransformType.NONE : transform;
+        return MixcesAnimationsConfig.INSTANCE.getPositions() && MixcesAnimationsConfig.INSTANCE.enabled && !ItemBlacklist.isPresent(itemToRender) ? ItemCameraTransforms.TransformType.NONE : transform;
     }
 
     @Inject(

@@ -78,7 +78,7 @@ public abstract class LayerHeldItemMixin {
     )
     private void mixcesAnimations$applyHeldItemLayerTransforms(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float scale, CallbackInfo ci) {
         if (!MixcesAnimationsConfig.INSTANCE.getPositions() || !MixcesAnimationsConfig.INSTANCE.enabled) return;
-        if (ItemBlacklist.INSTANCE.isPresent(mixcesAnimations$itemStack.get())) return;
+        if (ItemBlacklist.isPresent(mixcesAnimations$itemStack.get())) return;
         final Item item = mixcesAnimations$itemStack.get().getItem();
         GlHelper builder = GlHelper.INSTANCE;
         float var7;
@@ -116,7 +116,7 @@ public abstract class LayerHeldItemMixin {
             index = 2
     )
     private ItemCameraTransforms.TransformType mixcesAnimations$changeTransformType(ItemCameraTransforms.TransformType transform) {
-        return MixcesAnimationsConfig.INSTANCE.getPositions() && MixcesAnimationsConfig.INSTANCE.enabled && !ItemBlacklist.INSTANCE.isPresent(mixcesAnimations$itemStack.get()) ? ItemCameraTransforms.TransformType.NONE : transform;
+        return MixcesAnimationsConfig.INSTANCE.getPositions() && MixcesAnimationsConfig.INSTANCE.enabled && !ItemBlacklist.isPresent(mixcesAnimations$itemStack.get()) ? ItemCameraTransforms.TransformType.NONE : transform;
     }
 
     @Inject(

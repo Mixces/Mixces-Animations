@@ -2,21 +2,17 @@ package me.mixces.animations.mixin;
 
 import me.mixces.animations.config.MixcesAnimationsConfig;
 import me.mixces.animations.hook.GlintModel;
-import me.mixces.animations.util.GlHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import me.mixces.animations.init.CustomModelBakery;
+import me.mixces.animations.util.GlintHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -36,6 +32,9 @@ public abstract class RenderItemMixin {
 
     @Shadow
     protected abstract void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d);
+
+    @Shadow
+    public abstract void renderItem(ItemStack stack, IBakedModel model);
 
     @Unique
     private boolean mixcesAnimations$isGui;
@@ -98,7 +97,7 @@ public abstract class RenderItemMixin {
             )
     )
     public IBakedModel mixcesAnimations$replaceModel(IBakedModel model) {
-        return MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled ? GlintModel.INSTANCE.getModel(model) : model;
+        return MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled ? GlintModel.getModel(model) : model;
     }
 
     @ModifyArg(
@@ -115,9 +114,7 @@ public abstract class RenderItemMixin {
 
     @ModifyConstant(
             method = "renderEffect",
-            constant = @Constant(
-                    floatValue = 8.0F
-            )
+            constant = @Constant(floatValue = 8.0F)
     )
     public float mixcesAnimations$modifyScale(float original) {
         if (MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled) {
@@ -183,60 +180,41 @@ public abstract class RenderItemMixin {
     )
     public void mixcesAnimations$useCustomGlint(ItemStack stack, int x, int y, CallbackInfo ci) {
         if (MixcesAnimationsConfig.INSTANCE.getOldGlint() && MixcesAnimationsConfig.INSTANCE.enabled && stack.hasEffect()) {
-            mixcesAnimations$renderEffect(x, y);
+            GlintHelper.renderEffect(textureManager, RES_ITEM_GLINT, () -> setupGuiTransform(x, y, false));
+        }
+    }
+
+    @Redirect(
+            method = "renderItemModelTransform",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"
+            )
+    )
+    private void mixcesAnimations$swapToCustomModel(RenderItem instance, ItemStack stack, IBakedModel model) {
+        if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && stack.getItem() instanceof ItemPotion) {
+            instance.renderItem(stack, CustomModelBakery.BOTTLE_OVERLAY.getBakedModel());
+        } else {
+            instance.renderItem(stack, model);
+        }
+    }
+
+    @Inject(
+            method = "renderItemModelTransform",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void mixcesAnimations$renderCustomBottle(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
+        if (MixcesAnimationsConfig.INSTANCE.getOldPotion() && MixcesAnimationsConfig.INSTANCE.enabled && stack.getItem() instanceof ItemPotion) {
+            renderItem(new ItemStack(Items.glass_bottle), mixcesAnimations$getBottleModel(stack));
         }
     }
 
     @Unique
-    private void mixcesAnimations$renderEffect(int x, int y) {
-        /* renders the gui glint. values taken from 1.7 */
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.depthFunc(GL11.GL_GEQUAL);
-        GlStateManager.disableLighting();
-        GlStateManager.depthMask(false);
-        textureManager.bindTexture(RES_ITEM_GLINT);
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(516, 0.1f);
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(772, 1, 0, 0);
-        GlStateManager.color(0.5F, 0.25F, 0.8F, 1.0F);
-
-        GlStateManager.pushMatrix();
-        setupGuiTransform(x, y, false);
-
-        /* this is needed to adapt the glint to the gui */
-        GlHelper.INSTANCE.scale(0.5f, 0.5f, 0.5f).translate(-0.5f, -0.5f, -0.5f);
-
-        mixcesAnimations$renderFace();
-        GlStateManager.popMatrix();
-
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.depthMask(true);
-        GlStateManager.enableLighting();
-        GlStateManager.depthFunc(GL11.GL_LEQUAL);
-        GlStateManager.disableAlpha();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableLighting();
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-    }
-
-    @Unique
-    private void mixcesAnimations$renderFace() {
-        /* drawing the glint in one batch */
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        mixcesAnimations$draw(worldRenderer, (float) ((Minecraft.getSystemTime() % 3000L) / 3000.0), 0.0625F);
-        mixcesAnimations$draw(worldRenderer, (float) ((Minecraft.getSystemTime() % 4873L) / 4873.0) - 0.0625F, 0.0625F);
-        tessellator.draw();
-    }
-
-    @Unique
-    private void mixcesAnimations$draw(WorldRenderer worldRenderer, double width, double height) {
-        /* draws the glint. taken from 1.7 */
-        worldRenderer.pos(0.0, 0.0, 0.0).tex(width + height * 4.0, height).endVertex();
-        worldRenderer.pos(1.0, 0.0, 0.0).tex(width + height * 5.0, height).endVertex();
-        worldRenderer.pos(1.0, 1.0, 0.0).tex(width + height, 0.0).endVertex();
-        worldRenderer.pos(0.0, 1.0, 0.0).tex(width, 0.0).endVertex();
+    private IBakedModel mixcesAnimations$getBottleModel(ItemStack stack) {
+        return ItemPotion.isSplash(stack.getMetadata()) ? CustomModelBakery.BOTTLE_SPLASH_EMPTY.getBakedModel() : CustomModelBakery.BOTTLE_DRINKABLE_EMPTY.getBakedModel();
     }
 }
